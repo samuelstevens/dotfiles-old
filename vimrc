@@ -78,7 +78,7 @@ nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
 
 " Enable mouse support. You should avoid relying on this too much, but it can
 " sometimes be convenient.
-" set mouse+=a
+set mouse+=a
 
 " Try to prevent bad habits like using the arrow keys for movement. This is
 " not the only possible bad habit. For example, holding down the h/j/k/l keys
@@ -95,3 +95,8 @@ inoremap <Left>  <ESC>:echoe "Use h"<CR>
 inoremap <Right> <ESC>:echoe "Use l"<CR>
 inoremap <Up>    <ESC>:echoe "Use k"<CR>
 inoremap <Down>  <ESC>:echoe "Use j"<CR>
+
+" performance issues
+set timeoutlen=1000
+set ttimeoutlen=50
+
