@@ -57,6 +57,10 @@ PROMPT='%B%F{240}%1~%f%b %(!.#.$) '
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
 # functions
 
 cd () {
@@ -88,11 +92,21 @@ clean() {
 }
 
 venv() {
-  if [[ -f venv ]]; then
+  if [[ -d venv ]]; then
     source venv/bin/activate
-  else
-    echo 'No ./venv here'
+    return
   fi
+
+  echo "No venv/ in $(pwd)"
+  
+  if [[ -f .python-version ]]; then
+    echo "Making a new one with $(python --version)"
+    python3 -m venv venv
+    source venv/bin/activate
+    return
+  fi
+
+  echo "No .python-version file; will not make a virtualenv without knowing which version of python to use."
 }
 
 marco() {
@@ -100,7 +114,7 @@ marco() {
 }
 
 polo() {
-  cd < /tmp/marco
+  cd $(cat /tmp/marco)
 }
 
 # aliases
