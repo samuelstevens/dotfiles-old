@@ -1,0 +1,6 @@
+*.swp
+.netrwhist
+
+vim/plugins/
+vim/black/
+vim/plugins/
