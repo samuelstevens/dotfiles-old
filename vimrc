@@ -129,6 +129,9 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" buffer navigation
+nnoremap <leader>b :buffers<CR>:buffer<Space>
+
 " === end navigation ===
 
 " === filetypes ===
@@ -187,6 +190,8 @@ call plug#end()
 
 " === language servers (lsp) ===
 
+let g:lsp_signs_enabled = 1
+let g:lsp_signature_help_enabled=0 
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 1000
@@ -196,7 +201,7 @@ nnoremap gr :LspReferences<CR>
 nnoremap K :LspHover<CR>
 nnoremap [g :LspPreviousDiagnostic<CR>
 nnoremap ]g :LspNextDiagnostic<CR>
-nnoremap <leader>f :LspDocumentFormat<CR>
+nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
 
 " === end language servers ===
 
