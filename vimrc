@@ -21,8 +21,6 @@ set softtabstop=2	" number of spaces to insert for a TAB when editing
 set expandtab		" causes TAB to be inserted as spaces
 set shiftwidth=2 " when indenting with '<', use 2 spaces.
 
-autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 " makes python files use 4 spaces
-autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4 " makes c files use 4 spaces
 
 " themes
 set background=light
@@ -76,10 +74,6 @@ nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
 " Disable audible bell because it's annoying.
 " set noerrorbells visualbell t_vb=
 
-" Enable mouse support. You should avoid relying on this too much, but it can
-" sometimes be convenient.
-set mouse+=a
-
 " Try to prevent bad habits like using the arrow keys for movement. This is
 " not the only possible bad habit. For example, holding down the h/j/k/l keys
 " for movement, rather than using more efficient movement commands, is also a
@@ -100,3 +94,121 @@ inoremap <Down>  <ESC>:echoe "Use j"<CR>
 set timeoutlen=1000
 set ttimeoutlen=50
 
+
+" === shortcuts ===
+
+" leader
+let mapleader = "\\"
+let localleader = "\\"
+
+nnoremap o o<esc>
+nnoremap O O<esc>
+
+nnoremap <leader>ev :split $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" common typos
+iabbrev adn and
+iabbrev waht what
+iabbrev tehn then
+
+" expansions
+iabbrev @@ samuel.robert.stevens@gmail.com
+
+" === end shortcuts ====
+
+" === navigation ===
+
+" window splits
+set splitbelow
+set splitright
+
+" window navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" === end navigation ===
+
+" === filetypes ===
+
+augroup filetype_javascript
+  autocmd!
+  
+  " comments
+  autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+augroup END
+
+augroup filetype_python
+  autocmd!
+  
+  " comments
+  autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+
+  " makes python files use 4 spaces
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4   
+augroup END
+
+augroup filetype_c
+  autocmd!
+  
+  " makes c files use 4 spaces
+  autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4 
+augroup END
+
+augroup filetype_elm
+  autocmd!
+
+  " comments
+  autocmd FileType elm nnoremap <buffer> <localleader>c I--<esc>
+
+  " 4 spaces for tabs
+  autocmd FileType elm setlocal tabstop=4 shiftwidth=4 softtabstop=4
+augroup END
+" === end filetypes ===
+
+
+" === plugins ===
+
+call plug#begin('~/.vim/plugins')
+
+Plug 'easymotion/vim-easymotion'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'psf/black'
+
+call plug#end()
+
+" === end plugins ===
+
+
+" === language servers (lsp) ===
+
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_diagnostics_float_delay = 1000
+
+nnoremap gd :LspDefinition<CR> 
+nnoremap gr :LspReferences<CR>
+nnoremap K :LspHover<CR>
+nnoremap [g :LspPreviousDiagnostic<CR>
+nnoremap ]g :LspNextDiagnostic<CR>
+nnoremap <leader>f :LspDocumentFormat<CR>
+
+" === end language servers ===
+
+
+" === statusline :) ===
+
+set statusline=%f " path to the file
+set statusline+=\ -\  " separator
+set statusline+=%y " filetype
+set statusline+=%= " switch to right side
+set statusline+=line\ %l " current line
+set statusline+=\ of\  " separator
+set statusline+=%L " total lines
+
+" === end statuslines ===
