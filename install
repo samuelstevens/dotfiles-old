@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
+set -e
 
 # finds all files in the current directory that are no executable (not ./setup) and symlinks them.
 
 find ~/dotfiles/ -maxdepth 1 -type f \! -perm -u=x -print0 | xargs -0 -I{} basename {} | xargs -I{} ln -sf ~/dotfiles/{} ~/.{}
 
 # symlinks vim directory
-
-ln -sf ~/dotfiles/vim ~/.vim
+rm -f ~/.vim # remove any existing symlinks. If this is a directory, the script will fail.
+ln -s ~/dotfiles/vim ~/.vim
 
 # symlinks .bash (for git-aware prompt)
-ln -sf ~/dotfiles/bash ~/.bash
+rm -f ~/.bash # remove any existing symlinks. If this is a directory, the script will fail.
+ln -s ~/dotfiles/bash ~/.bash
