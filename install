@@ -6,4 +6,7 @@ find ~/dotfiles/ -maxdepth 1 -type f \! -perm -u=x -print0 | xargs -0 -I{} basen
 
 # symlinks vim directory
 
-ln -s ~/dotfiles/vim ~/.vim
+ln -sf ~/dotfiles/vim ~/.vim
+
+# symlinks .bash (for git-aware prompt)
+ln -sf ~/dotfiles/bash ~/.bash
