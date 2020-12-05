@@ -134,43 +134,6 @@ nnoremap <leader>b :buffers<CR>:buffer<Space>
 
 " === end navigation ===
 
-" === filetypes ===
-
-augroup filetype_javascript
-  autocmd!
-  
-  " comments
-  autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
-augroup END
-
-augroup filetype_python
-  autocmd!
-  
-  " comments
-  autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
-
-  " makes python files use 4 spaces
-  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4   
-augroup END
-
-augroup filetype_c
-  autocmd!
-  
-  " makes c files use 4 spaces
-  autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4 
-augroup END
-
-augroup filetype_elm
-  autocmd!
-
-  " comments
-  autocmd FileType elm nnoremap <buffer> <localleader>c I--<esc>
-
-  " 4 spaces for tabs
-  autocmd FileType elm setlocal tabstop=4 shiftwidth=4 softtabstop=4
-augroup END
-" === end filetypes ===
-
 
 " === plugins ===
 
@@ -204,6 +167,47 @@ nnoremap ]g :LspNextDiagnostic<CR>
 nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
 
 " === end language servers ===
+
+
+" === filetypes ===
+
+augroup filetype_javascript
+  autocmd!
+  
+  " comments
+  autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+augroup END
+
+augroup filetype_python
+  autocmd!
+  
+  " comments
+  autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+
+  " makes python files use 4 spaces
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4   
+
+  " use BLACK for formatting
+  nnoremap <leader>f :Black<CR>
+augroup END
+
+augroup filetype_c
+  autocmd!
+  
+  " makes c files use 4 spaces
+  autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4 
+augroup END
+
+augroup filetype_elm
+  autocmd!
+
+  " comments
+  autocmd FileType elm nnoremap <buffer> <localleader>c I--<esc>
+
+  " 4 spaces for tabs
+  autocmd FileType elm setlocal tabstop=4 shiftwidth=4 softtabstop=4
+augroup END
+" === end filetypes ===
 
 
 " === statusline :) ===
