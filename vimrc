@@ -12,6 +12,9 @@ set incsearch
 syntax enable		
 " new lines respect current indent
 set autoindent		
+" word wrap, but only at word boundaries
+set wrap
+set linebreak
 
 let g:netrw_liststyle = 3	" forces netrw to use tree view
 let g:netrw_banner = 0  " removes the help banner at the top of netrw
@@ -170,6 +173,8 @@ nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
 
 
 " === filetypes ===
+
+let g:tex_flavor = "latex" " always use latex for .tex files
 
 augroup filetype_javascript
   autocmd!
