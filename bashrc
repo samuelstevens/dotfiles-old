@@ -9,6 +9,8 @@ set editing-mode vi
 set -o vi
 
 # third-party tools
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
@@ -56,6 +58,7 @@ venv() {
     echo "Making a new one with $(python --version)"
     python3 -m venv venv
     source venv/bin/activate
+    pip install --upgrade pip
     return
   fi
 
@@ -68,6 +71,11 @@ marco() {
 
 polo() {
   cd $(cat /tmp/marco)
+}
+
+mygrep() {
+  # adds some reasonable defaults to grep on systems where ripgrep can't be installed
+  grep --recursive --ignore-case --color --line-number --binary-files=without-match $@
 }
 
 # aliases
