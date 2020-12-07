@@ -212,6 +212,13 @@ augroup filetype_elm
   " 4 spaces for tabs
   autocmd FileType elm setlocal tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
+
+augroup filetype_sh
+  " comments
+  
+  " insert shebang automagically
+  autocmd BufNewFile *.sh 0:read ~/.vim/skeletons/sh | $
+augroup END
 " === end filetypes ===
 
 
