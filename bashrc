@@ -2,6 +2,7 @@
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH" # go binaries
 export PATH="$HOME/bin:$PATH" # personal bash scripts
+# export PATH="$HOME/anaconda3/bin:$PATH"  # commented out by conda initialize # anaconda3
 
 # vim-bindings
 export EDITOR=vim
@@ -48,7 +49,7 @@ clean() {
 
 venv() {
   if [[ -d venv ]]; then
-    source venv/bin/activate
+    source venv/bin/activate 
     return
   fi
 
@@ -57,7 +58,7 @@ venv() {
   if [[ -f .python-version ]]; then
     echo "Making a new one with $(python --version)"
     python3 -m venv venv
-    source venv/bin/activate
+    source venv/bin/activate  
     pip install --upgrade pip
     return
   fi
@@ -86,3 +87,19 @@ alias rmds="find . -name '*.DS_Store' -type f -delete"
 alias mv="mv -i"
 
 alias dotenv='export "$(grep -v "#.*" .env | xargs)"'
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/stevens.994/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/stevens.994/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/stevens.994/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/stevens.994/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
