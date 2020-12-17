@@ -29,14 +29,14 @@ colors:
 
 font:
   normal:
-    family: Menlo
+    family: Consolas
     style: Regular
 
   bold:
-    family: Menlo
+    family: Consolas
     style: Bold
 
-  size: 14.0
+  size: 15.0
 
   use_thin_strokes: true
 
@@ -48,3 +48,7 @@ scrolling:
   history: 1000
 
   multiplier: 3
+
+mouse:
+  url:
+    launcher: open

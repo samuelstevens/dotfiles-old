@@ -148,8 +148,17 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'psf/black'
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()
+
+" CtrlP options
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMixed'
+
+" Prettier
+let g:prettier#config#trailing_comma = 'all'
 
 " === end plugins ===
 
@@ -181,6 +190,9 @@ augroup filetype_javascript
   
   " comments
   autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
+
+  " use Prettier for formatting
+  autocmd FileType javascript nnoremap <buffer> <localleader>f :Prettier<CR>
 augroup END
 
 augroup filetype_python
@@ -193,7 +205,7 @@ augroup filetype_python
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4   
 
   " use BLACK for formatting
-  nnoremap <leader>f :Black<CR>
+  autocmd FileType python nnoremap <buffer> <localleader>f :Black<CR>
 augroup END
 
 augroup filetype_c
