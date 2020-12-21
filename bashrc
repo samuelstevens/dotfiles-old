@@ -1,14 +1,17 @@
-# path
+# region path
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH" # go binaries
 export PATH="$HOME/bin:$PATH" # personal bash scripts
 
-# vim-bindings
+# endregion
+
+# region vim-bindings
 export EDITOR=vim
 set editing-mode vi
 set -o vi
+# endregion
 
-# third-party tools
+# region third-party tools
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
@@ -16,7 +19,9 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-# functions
+# endregion
+
+# region functions
 
 cd () {
   clear && builtin cd "$1" && ls -t | head -7
@@ -79,7 +84,9 @@ mygrep() {
   grep --recursive --ignore-case --color --line-number --binary-files=without-match $@
 }
 
-# aliases
+# endregion
+
+# region aliases
 alias dc=cd
 
 alias rmds="find . -name '*.DS_Store' -type f -delete"
@@ -89,3 +96,9 @@ alias mv="mv -i"
 alias dotenv='export "$(grep -v "#.*" .env | xargs)"'
 
 alias clear='echo "Use CTRL-L"'
+# endregion
+
+# host specific stuff
+if [ -f "$HOME/.hostrc" ]; then
+  source "$HOME/.hostrc"
+fi
