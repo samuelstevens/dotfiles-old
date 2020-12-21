@@ -16,9 +16,6 @@ set autoindent
 set wrap
 set linebreak
 
-let g:netrw_liststyle = 3	" forces netrw to use tree view
-let g:netrw_banner = 0  " removes the help banner at the top of netrw
-
 set tabstop=2		" number of visual spaces per TAB
 set softtabstop=2	" number of spaces to insert for a TAB when editing
 set expandtab		" causes TAB to be inserted as spaces
@@ -98,7 +95,7 @@ set timeoutlen=1000
 set ttimeoutlen=50
 
 
-" === shortcuts ===
+" region shortcuts 
 
 " leader
 let mapleader = "\\"
@@ -118,9 +115,9 @@ iabbrev tehn then
 " expansions
 iabbrev @@ samuel.robert.stevens@gmail.com
 
-" === end shortcuts ====
+" endregion shortcuts
 
-" === navigation ===
+" region navigation
 
 " window splits
 set splitbelow
@@ -135,10 +132,9 @@ nnoremap <C-H> <C-W><C-H>
 " buffer navigation
 nnoremap <leader>b :buffers<CR>:buffer<Space>
 
-" === end navigation ===
+" endregion navigation 
 
-
-" === plugins ===
+" region plugins 
 
 call plug#begin('~/.vim/plugins')
 
@@ -162,13 +158,12 @@ let g:prettier#config#trailing_comma = 'all'
 if executable('rg')
   nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'rg --files'}))<CR>
 else
-  nnoremap <C-p> FZF
+  nnoremap <C-p> :FZF<CR>
 endif
 
-" === end plugins ===
+" endregion plugins 
 
-
-" === language servers (lsp) ===
+" region language servers (lsp) 
 
 let g:lsp_signs_enabled = 1
 let g:lsp_signature_help_enabled=0 
@@ -183,10 +178,9 @@ nnoremap [g :LspPreviousDiagnostic<CR>
 nnoremap ]g :LspNextDiagnostic<CR>
 nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
 
-" === end language servers ===
+" endregion language servers 
 
-
-" === filetypes ===
+" region filetypes 
 
 let g:tex_flavor = "latex" " always use latex for .tex files
 
@@ -212,10 +206,6 @@ augroup filetype_python
   " use BLACK for formatting
   autocmd FileType python nnoremap <buffer> <localleader>f :Black<CR>
 
-  " folding
-  autocmd FileType python set foldmethod=marker
-  autocmd FileType python set foldmarker=region,endregion
-  autocmd FileType python nnoremap <buffer> <space> za
 augroup END
 
 augroup filetype_c
@@ -241,10 +231,9 @@ augroup filetype_sh
   " insert shebang automagically
   autocmd BufNewFile *.sh 0:read ~/.vim/skeletons/sh | $
 augroup END
-" === end filetypes ===
+" endregion filetypes 
 
-
-" === statusline :) ===
+" region statusline :) 
 
 set statusline=%f " path to the file
 set statusline+=\ -\  " separator
@@ -254,10 +243,18 @@ set statusline+=line\ %l " current line
 set statusline+=\ of\  " separator
 set statusline+=%L " total lines
 
-" === end statuslines ===
+" endregion statuslines 
 
-" === autocommands ===
+" region autocommands 
 
 au FocusGained,BufEnter * :checktime
 
-" === end autocommands ===
+" endregion autocommands 
+
+" region folding
+
+set foldmethod=marker
+set foldmarker=region,endregion
+nnoremap <buffer> <space> za
+
+" endregion 
