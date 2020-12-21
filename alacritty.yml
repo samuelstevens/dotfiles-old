@@ -52,3 +52,6 @@ scrolling:
 mouse:
   url:
     launcher: open
+
+env:
+  TERM: xterm-256color
