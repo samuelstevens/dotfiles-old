@@ -4,3 +4,6 @@
 vim/plugins/
 vim/black/
 vim/plugins/
+
+# host-specific, so it shouldn't be committed
+hostrc
