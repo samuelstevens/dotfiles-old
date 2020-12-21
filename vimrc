@@ -107,7 +107,7 @@ let localleader = "\\"
 nnoremap o o<esc>
 nnoremap O O<esc>
 
-nnoremap <leader>ev :split $MYVIMRC<CR>
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " common typos
@@ -149,16 +149,21 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'psf/black'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-python/python-syntax'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 call plug#end()
 
-" CtrlP options
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPMixed'
-
 " Prettier
 let g:prettier#config#trailing_comma = 'all'
+
+" fzf
+if executable('rg')
+  nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'rg --files'}))<CR>
+else
+  nnoremap <C-p> FZF
+endif
 
 " === end plugins ===
 
@@ -199,13 +204,18 @@ augroup filetype_python
   autocmd!
   
   " comments
-  autocmd FileType python nnoremap <buffer> <localleader>c I#<esc>
+  autocmd FileType python nnoremap <buffer> <localleader>c I# <esc>
 
   " makes python files use 4 spaces
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4   
 
   " use BLACK for formatting
   autocmd FileType python nnoremap <buffer> <localleader>f :Black<CR>
+
+  " folding
+  autocmd FileType python set foldmethod=marker
+  autocmd FileType python set foldmarker=region,endregion
+  autocmd FileType python nnoremap <buffer> <space> za
 augroup END
 
 augroup filetype_c
@@ -245,3 +255,9 @@ set statusline+=\ of\  " separator
 set statusline+=%L " total lines
 
 " === end statuslines ===
+
+" === autocommands ===
+
+au FocusGained,BufEnter * :checktime
+
+" === end autocommands ===
