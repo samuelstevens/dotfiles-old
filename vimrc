@@ -101,11 +101,17 @@ set ttimeoutlen=50
 let mapleader = "\\"
 let localleader = "\\"
 
+" I don't like being in insert mode after o/O
 nnoremap o o<esc>
 nnoremap O O<esc>
 
+" quick editing of vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" CTRL-<any number> doesn't work on my terminal, and I'm too lazy to
+" understand why.
+nnoremap <C-e> <C-^>
 
 " common typos
 iabbrev adn and

@@ -25,7 +25,7 @@ fi
 # region functions
 
 cd () {
-  clear && builtin cd "$1" && ls -t | head -7
+  \clear && builtin cd "$1" && ls -t | head -7
 }
 
 
@@ -82,7 +82,7 @@ polo() {
 
 mygrep() {
   # adds some reasonable defaults to grep on systems where ripgrep can't be installed
-  grep --recursive --ignore-case --color --line-number --binary-files=without-match $@
+  grep --recursive --ignore-case --color --line-number --binary-files=without-match "$@"
 }
 
 # endregion
