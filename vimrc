@@ -1,7 +1,7 @@
 " show line numbers
-set number		
+set number
 " show command in bottom bar
-set showcmd		
+set showcmd
 " highlight the current line
 set cursorline		
 " highlight search results
@@ -70,9 +70,6 @@ set smartcase
 
 " Unbind some useless/annoying default key bindings.
 nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
-
-" Disable audible bell because it's annoying.
-" set noerrorbells visualbell t_vb=
 
 " Try to prevent bad habits like using the arrow keys for movement. This is
 " not the only possible bad habit. For example, holding down the h/j/k/l keys
