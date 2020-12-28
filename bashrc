@@ -85,6 +85,10 @@ mygrep() {
   grep --recursive --ignore-case --color --line-number --binary-files=without-match "$@"
 }
 
+who-owns() {
+  ps -o user= -p "$1"
+}
+
 # endregion
 
 # region aliases
