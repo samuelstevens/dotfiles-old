@@ -2,8 +2,7 @@
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH" # go binaries
 export PATH="$HOME/bin:$PATH" # personal bash scripts
-# export PATH="$HOME/anaconda3/bin:$PATH"  # commented out by conda initialize # anaconda3
-
+source "$HOME/.cargo/env" # rust binaries
 # endregion
 
 # region vim-bindings

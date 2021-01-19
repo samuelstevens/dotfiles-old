@@ -16,8 +16,9 @@ setopt HIST_REDUCE_BLANKS
 # expands !! before executing
 setopt HIST_VERIFY
 
-setopt CORRECT
-setopt CORRECT_ALL
+unsetopt correct
+unsetopt correct_all
+DISABLE_CORRECTION="true"
 
 HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 SAVEHIST=5000

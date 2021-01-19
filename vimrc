@@ -141,6 +141,7 @@ nnoremap <leader>b :buffers<CR>:buffer<Space>
 
 call plug#begin('~/.vim/plugins')
 
+" general plugins
 Plug 'easymotion/vim-easymotion'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
@@ -148,9 +149,13 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'psf/black'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-Plug 'vim-python/python-syntax'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'tpope/vim-commentary'
+
+" syntax
+Plug 'vim-python/python-syntax'
+Plug 'cespare/vim-toml'
 
 call plug#end()
 
@@ -190,9 +195,6 @@ let g:tex_flavor = "latex" " always use latex for .tex files
 augroup filetype_javascript
   autocmd!
   
-  " comments
-  autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
-
   " use Prettier for formatting
   autocmd FileType javascript nnoremap <buffer> <localleader>f :Prettier<CR>
 augroup END
@@ -200,9 +202,6 @@ augroup END
 augroup filetype_python
   autocmd!
   
-  " comments
-  autocmd FileType python nnoremap <buffer> <localleader>c I# <esc>
-
   " makes python files use 4 spaces
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4   
 
@@ -213,27 +212,43 @@ augroup END
 
 augroup filetype_c
   autocmd!
-  
-  " makes c files use 4 spaces
-  autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4 
 augroup END
 
 augroup filetype_elm
   autocmd!
-
-  " comments
-  autocmd FileType elm nnoremap <buffer> <localleader>c I--<esc>
 
   " 4 spaces for tabs
   autocmd FileType elm setlocal tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 
 augroup filetype_sh
-  " comments
-  
   " insert shebang automagically
   autocmd BufNewFile *.sh 0:read ~/.vim/skeletons/sh | $
 augroup END
+
+augroup filetype_java
+  autocmd!
+
+  " makes java files use 4 spaces
+  autocmd FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4   
+augroup END
+
+augroup filetype_cup
+  autocmd!
+
+  " syntax
+  autocmd BufRead,BufNewFile *.cup set filetype=cup
+  autocmd FileType cup set filetype=java
+augroup END
+
+augroup filetype_jflex
+  autocmd!
+
+  " syntax
+  autocmd BufRead,BufNewFile *.jflex set filetype=jflex
+  autocmd FileType jflex set filetype=java
+augroup END
+
 " endregion filetypes 
 
 " region statusline :) 
@@ -258,6 +273,6 @@ au FocusGained,BufEnter * :checktime
 
 set foldmethod=marker
 set foldmarker=region,endregion
-nnoremap <buffer> <space> za
+nnoremap <space> za
 
 " endregion 
