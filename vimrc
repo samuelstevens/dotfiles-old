@@ -16,6 +16,11 @@ set autoindent
 set wrap
 set linebreak
 
+" make filetypes work
+filetype on
+filetype indent on
+filetype plugin on
+
 set tabstop=2		" number of visual spaces per TAB
 set softtabstop=2	" number of spaces to insert for a TAB when editing
 set expandtab		" causes TAB to be inserted as spaces
@@ -103,7 +108,7 @@ nnoremap o o<esc>
 nnoremap O O<esc>
 
 " quick editing of vimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " CTRL-<any number> doesn't work on my terminal, and I'm too lazy to
@@ -143,19 +148,22 @@ call plug#begin('~/.vim/plugins')
 
 " general plugins
 Plug 'easymotion/vim-easymotion'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'tpope/vim-commentary'
+Plug 'mileszs/ack.vim'
+
+" syntax
+Plug 'vim-python/python-syntax'
+Plug 'cespare/vim-toml'
+
+" IDE stuff
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'psf/black'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'tpope/vim-commentary'
-
-" syntax
-Plug 'vim-python/python-syntax'
-Plug 'cespare/vim-toml'
 
 call plug#end()
 
@@ -187,6 +195,21 @@ nnoremap ]g :LspNextDiagnostic<CR>
 nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
 
 " endregion language servers 
+
+" region searching
+
+" configure ripgrep appropriately
+let g:ackprg = 'rg --vimgrep --smart-case'
+
+" close quickfix window after selecting a match
+let g:ack_autoclose = 1 
+
+" use current work if no pattern (find other uses)
+let g:ack_use_cword_for_empty_search = 1
+
+nnoremap <leader>/ :Ack!<space>
+
+" endregion
 
 " region filetypes 
 
@@ -249,6 +272,17 @@ augroup filetype_jflex
   autocmd FileType jflex set filetype=java
 augroup END
 
+augroup filetype_racket
+  autocmd!
+
+  " syntax
+  autocmd BufReadPost *.rkt,*.rktl set filetype=scheme
+
+  " lispy stuff
+  autocmd filetype racket set lisp
+  autocmd filetype racket set autoindent
+  unmap gd
+augroup END
 " endregion filetypes 
 
 " region statusline :) 

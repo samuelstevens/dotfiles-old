@@ -19,6 +19,10 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+if command -v rg 1>/dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+fi
+
 # endregion
 
 # region functions
