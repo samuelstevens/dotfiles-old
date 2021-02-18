@@ -1,47 +1,6 @@
-" show line numbers
-set number
-" show command in bottom bar
-set showcmd
-" highlight the current line
-set cursorline		
-" highlight search results
-set hlsearch		
-" show search results as you type
-set incsearch   
-" enable syntax highlighting
-syntax enable		
-" new lines respect current indent
-set autoindent		
-" word wrap, but only at word boundaries
-set wrap
-set linebreak
-
-" make filetypes work
-filetype on
-filetype indent on
-filetype plugin on
-
-set tabstop=2		" number of visual spaces per TAB
-set softtabstop=2	" number of spaces to insert for a TAB when editing
-set expandtab		" causes TAB to be inserted as spaces
-set shiftwidth=2 " when indenting with '<', use 2 spaces.
-
-
 " themes
 set background=light
 colorscheme solarized
-
-" Vim is based on Vi. Setting `nocompatible` switches from the default
-" Vi-compatibility mode and enables useful Vim functionality. This
-" configuration option turns out not to be necessary for the file named
-" '~/.vimrc', because Vim automatically enters nocompatible mode if that file
-" is present. But we're including it here just in case this config file is
-" loaded some other way (e.g. saved as `foo`, and then Vim started with
-" `vim -u foo`).
-set nocompatible
-
-" Disable the default Vim startup message.
-set shortmess+=I
 
 " This enables relative line numbering mode. With both number and
 " relativenumber enabled, the current line shows the true line number, while
@@ -54,24 +13,12 @@ set relativenumber
 " Always show the status line at the bottom, even if you only have one window open.
 set laststatus=2
 
-" The backspace key has slightly unintuitive behavior by default. For example,
-" by default, you can't backspace before the insertion point set with 'i'.
-" This configuration makes backspace behave more reasonably, in that you can
-" backspace over anything.
-set backspace=indent,eol,start
-
 " By default, Vim doesn't let you hide a buffer (i.e. have a buffer that isn't
 " shown in any window) that has unsaved changes. This is to prevent you from "
 " forgetting about unsaved changes and then quitting e.g. via `:qa!`. We find
 " hidden buffers helpful enough to disable this protection. See `:help hidden`
 " for more information on this.
 set hidden
-
-" This setting makes search case-insensitive when all characters in the string
-" being searched are lowercase. However, the search becomes case-sensitive if
-" it contains any capital letters. This makes searching more convenient.
-set ignorecase
-set smartcase
 
 " Unbind some useless/annoying default key bindings.
 nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
@@ -96,12 +43,55 @@ inoremap <Down>  <ESC>:echoe "Use j"<CR>
 set timeoutlen=1000
 set ttimeoutlen=50
 
+" region generic niceties
 
-" region shortcuts 
+set number " show line numbers
+set showcmd " show command in bottom bar
+set cursorline " highlight the current line
+syntax enable " enable syntax highlighting
+set autoindent " new lines respect current indent
+
+" word wrap, but only at word boundaries
+set wrap
+set linebreak
+
+" make filetypes work
+filetype on
+filetype indent on
+filetype plugin on
+
+set tabstop=2		" number of visual spaces per TAB
+set softtabstop=2	" number of spaces to insert for a TAB when editing
+set expandtab		" causes TAB to be inserted as spaces
+set shiftwidth=2 " when indenting with '<', use 2 spaces.
+
+" Vim is based on Vi. Setting `nocompatible` switches from the default
+" Vi-compatibility mode and enables useful Vim functionality. This
+" configuration option turns out not to be necessary for the file named
+" '~/.vimrc', because Vim automatically enters nocompatible mode if that file
+" is present. But we're including it here just in case this config file is
+" loaded some other way (e.g. saved as `foo`, and then Vim started with
+" `vim -u foo`).
+set nocompatible
+
+" The backspace key has slightly unintuitive behavior by default. For example,
+" by default, you can't backspace before the insertion point set with 'i'.
+" This configuration makes backspace behave more reasonably, in that you can
+" backspace over anything.
+set backspace=indent,eol,start
+
+set shortmess+=a " Disable the default Vim startup message.
+
+set wildmenu " enhanced command-line completion
+set wildmode=list:longest
+
+" endregion
+
+" region shortcuts
 
 " leader
-let mapleader = "\\"
-let localleader = "\\"
+let mapleader = "\<space>"
+let localleader = "\<space>"
 
 " I don't like being in insert mode after o/O
 nnoremap o o<esc>
@@ -127,6 +117,10 @@ iabbrev @@ samuel.robert.stevens@gmail.com
 
 " region navigation
 
+" jumping between brackets
+nnoremap <tab> %
+vnoremap <tab> %
+
 " window splits
 set splitbelow
 set splitright
@@ -138,11 +132,14 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " buffer navigation
-nnoremap <leader>b :buffers<CR>:buffer<Space>
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bp :bprevious<CR>
+nnoremap <leader>bd :bdelete<CR>
+nnoremap <leader>ls :buffers <CR>
 
-" endregion navigation 
+" endregion navigation
 
-" region plugins 
+" region plugins
 
 call plug#begin('~/.vim/plugins')
 
@@ -177,32 +174,46 @@ else
   nnoremap <C-p> :FZF<CR>
 endif
 
-" endregion plugins 
+" endregion plugins
 
-" region language servers (lsp) 
+" region language servers (lsp)
 
 let g:lsp_signs_enabled = 1
-let g:lsp_signature_help_enabled=0 
+let g:lsp_signature_help_enabled=0
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 1000
 
-nnoremap gd :LspDefinition<CR> 
+nnoremap gd :LspDefinition<CR>
 nnoremap gr :LspReferences<CR>
 nnoremap K :LspHover<CR>
 nnoremap [g :LspPreviousDiagnostic<CR>
 nnoremap ]g :LspNextDiagnostic<CR>
 nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
 
-" endregion language servers 
+" endregion language servers
 
 " region searching
+
+" This setting makes search case-insensitive when all characters in the string
+" being searched are lowercase. However, the search becomes case-sensitive if
+" it contains any capital letters. This makes searching more convenient. (MIT
+" CSAIL)
+set ignorecase
+set smartcase
+
+set gdefault " applies /g by default
+
+set hlsearch " highlight search results
+set incsearch " show search results as you type
+" turn off search highlighting quickly
+nnoremap <leader><CR> :nohlsearch<CR>
 
 " configure ripgrep appropriately
 let g:ackprg = 'rg --vimgrep --smart-case'
 
 " close quickfix window after selecting a match
-let g:ack_autoclose = 1 
+let g:ack_autoclose = 1
 
 " use current work if no pattern (find other uses)
 let g:ack_use_cword_for_empty_search = 1
@@ -211,30 +222,35 @@ nnoremap <leader>/ :Ack!<space>
 
 " endregion
 
-" region filetypes 
+" region filetypes
 
 let g:tex_flavor = "latex" " always use latex for .tex files
 
 augroup filetype_javascript
   autocmd!
-  
+
   " use Prettier for formatting
   autocmd FileType javascript nnoremap <buffer> <localleader>f :Prettier<CR>
 augroup END
 
 augroup filetype_python
   autocmd!
-  
+
   " makes python files use 4 spaces
-  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4   
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
   " use BLACK for formatting
   autocmd FileType python nnoremap <buffer> <localleader>f :Black<CR>
 
+  " show a column at 88 chars for formatting
+  set colorcolumn=88
 augroup END
 
 augroup filetype_c
   autocmd!
+
+  " 4 spaces for tabs
+  autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 
 augroup filetype_elm
@@ -249,11 +265,16 @@ augroup filetype_sh
   autocmd BufNewFile *.sh 0:read ~/.vim/skeletons/sh | $
 augroup END
 
+augroup filetype_tex
+  " insert shebang automagically
+  autocmd BufNewFile *.tex 0:read ~/.vim/skeletons/tex | $
+augroup END
+
 augroup filetype_java
   autocmd!
 
   " makes java files use 4 spaces
-  autocmd FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4   
+  autocmd FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 
 augroup filetype_cup
@@ -283,9 +304,9 @@ augroup filetype_racket
   autocmd filetype racket set autoindent
   unmap gd
 augroup END
-" endregion filetypes 
+" endregion filetypes
 
-" region statusline :) 
+" region statusline :)
 
 set statusline=%f " path to the file
 set statusline+=\ -\  " separator
@@ -295,18 +316,18 @@ set statusline+=line\ %l " current line
 set statusline+=\ of\  " separator
 set statusline+=%L " total lines
 
-" endregion statuslines 
+" endregion statuslines
 
-" region autocommands 
+" region autocommands
 
 au FocusGained,BufEnter * :checktime
 
-" endregion autocommands 
+" endregion autocommands
 
 " region folding
 
 set foldmethod=marker
 set foldmarker=region,endregion
-nnoremap <space> za
+nnoremap <cr> za
 
-" endregion 
+" endregion

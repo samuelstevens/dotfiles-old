@@ -23,6 +23,8 @@ if command -v rg 1>/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='rg --files'
 fi
 
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
 # endregion
 
 # region functions

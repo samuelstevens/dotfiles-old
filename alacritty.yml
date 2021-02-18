@@ -29,14 +29,14 @@ colors:
 
 font:
   normal:
-    family: Consolas
+    family: Menlo
     style: Regular
 
   bold:
-    family: Consolas
+    family: Menlo
     style: Bold
 
-  size: 15.0
+  size: 14.0
 
   use_thin_strokes: true
 
