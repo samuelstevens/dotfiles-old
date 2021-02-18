@@ -85,6 +85,10 @@ set shortmess+=a " Disable the default Vim startup message.
 set wildmenu " enhanced command-line completion
 set wildmode=list:longest
 
+" Use CTRL-J and CTRL-K to navigate the autocompletel menu
+inoremap <C-j> <C-n>
+inoremap <C-k> <C-p>
+
 " endregion
 
 " region shortcuts
