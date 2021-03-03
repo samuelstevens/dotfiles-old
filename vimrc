@@ -95,7 +95,7 @@ inoremap <C-k> <C-p>
 
 " leader
 let mapleader = "\<space>"
-let localleader = "\<space>"
+let maplocalleader = "\<space>"
 
 " I don't like being in insert mode after o/O
 nnoremap o o<esc>
@@ -122,8 +122,8 @@ iabbrev @@ samuel.robert.stevens@gmail.com
 " region navigation
 
 " jumping between brackets
-nnoremap <tab> %
-vnoremap <tab> %
+nnoremap <C-S> %
+vnoremap <C-S> %
 
 " window splits
 set splitbelow
@@ -255,6 +255,7 @@ augroup filetype_c
 
   " 4 spaces for tabs
   autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 
 augroup filetype_elm
@@ -332,6 +333,5 @@ au FocusGained,BufEnter * :checktime
 
 set foldmethod=marker
 set foldmarker=region,endregion
-nnoremap <cr> za
 
 " endregion
