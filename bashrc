@@ -3,6 +3,7 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH" # go binaries
 export PATH="$HOME/bin:$PATH" # personal bash scripts
 source "$HOME/.cargo/env" # rust binaries
+export PATH="$HOME/.poetry/bin:$PATH" # poetry
 # endregion
 
 # region vim-bindings
