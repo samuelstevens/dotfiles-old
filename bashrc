@@ -30,7 +30,7 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 # region functions
 
 cd () {
-  \clear && builtin cd "$1" && ls -t | head -7
+  builtin cd "$1" && ls -t | head -7
 }
 
 

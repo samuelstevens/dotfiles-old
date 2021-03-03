@@ -139,7 +139,7 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <leader>bn :bnext<CR>
 nnoremap <leader>bp :bprevious<CR>
 nnoremap <leader>bd :bdelete<CR>
-nnoremap <leader>ls :buffers <CR>
+nnoremap <leader>ls :buffers<CR>:buffer<Space>
 
 " endregion navigation
 
@@ -332,6 +332,5 @@ au FocusGained,BufEnter * :checktime
 
 set foldmethod=marker
 set foldmarker=region,endregion
-nnoremap <cr> za
 
 " endregion
