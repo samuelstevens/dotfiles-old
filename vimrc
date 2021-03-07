@@ -304,9 +304,9 @@ augroup filetype_racket
   autocmd BufReadPost *.rkt,*.rktl set filetype=scheme
 
   " lispy stuff
-  autocmd filetype racket set lisp
-  autocmd filetype racket set autoindent
-  unmap gd
+  autocmd filetype scheme set lisp
+  autocmd filetype scheme set autoindent
+  autocmd filetype scheme nmap gd
 augroup END
 " endregion filetypes
 
