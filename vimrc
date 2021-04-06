@@ -153,6 +153,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'tpope/vim-commentary'
 Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-unimpaired'
 
 " syntax
 Plug 'vim-python/python-syntax'
@@ -250,7 +251,7 @@ augroup filetype_python
   autocmd FileType python nnoremap <buffer> <localleader>f :Black<CR>
 
   " show a column at 88 chars for formatting
-  set colorcolumn=88
+  autocmd FileType python set colorcolumn=88
 augroup END
 
 augroup filetype_c
