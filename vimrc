@@ -192,8 +192,11 @@ nnoremap gd :LspDefinition<CR>
 nnoremap gr :LspReferences<CR>
 nnoremap K :LspHover<CR>
 nnoremap [g :LspPreviousDiagnostic<CR>
+nnoremap g[ :LspPreviousDiagnostic<CR>
 nnoremap ]g :LspNextDiagnostic<CR>
+nnoremap g] :LspNextDiagnostic<CR>
 nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
+nnoremap <leader>rn :LspRename<CR>
 
 " endregion language servers
 
@@ -268,6 +271,9 @@ augroup END
 augroup filetype_sh
   " insert shebang automagically
   autocmd BufNewFile *.sh 0:read ~/.vim/skeletons/sh | $
+
+  " 4 spaces for tabs
+  autocmd FileType sh setlocal tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 
 augroup filetype_tex
