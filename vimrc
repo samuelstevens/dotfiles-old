@@ -308,7 +308,7 @@ augroup filetype_racket
   " lispy stuff
   autocmd filetype racket set lisp
   autocmd filetype racket set autoindent
-  unmap gd
+  autocmd filetype racket unmap gd
 augroup END
 " endregion filetypes
 
