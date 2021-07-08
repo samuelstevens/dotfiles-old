@@ -70,7 +70,7 @@ venv() {
   echo "No venv/ in $(pwd)"
   
   if [[ -f .python-version ]]; then
-    echo "Making a new one with $(python --version)"
+    echo "Making a new one with $(python3 --version)"
     python3 -m venv venv
     source venv/bin/activate  
     pip install --upgrade pip
