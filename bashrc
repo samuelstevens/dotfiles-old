@@ -3,7 +3,9 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH" # go binaries
 export PATH="$HOME/bin:$PATH" # personal bash scripts
 source "$HOME/.cargo/env" # rust binaries
-export PATH="$HOME/.poetry/bin:$PATH" # poetry
+export COBOT_HOME=~/Documents/school/subjects/research/AlexaPrizeCobotToolkit
+export PATH=$COBOT_HOME/bin:$PATH
+export PATH=~/.npm-global/bin:$PATH
 # endregion
 
 # region vim-bindings
@@ -17,7 +19,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+  eval "$(pyenv init --path)"
 fi
 
 if command -v rg 1>/dev/null 2>&1; then
@@ -63,7 +65,7 @@ venv() {
   echo "No venv/ in $(pwd)"
   
   if [[ -f .python-version ]]; then
-    echo "Making a new one with $(python --version)"
+    echo "Making a new one with $(python3 --version)"
     python3 -m venv venv
     source venv/bin/activate  
     pip install --upgrade pip
