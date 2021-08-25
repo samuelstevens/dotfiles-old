@@ -1,5 +1,4 @@
 " themes
-set background=light
 colorscheme solarized
 
 " This enables relative line numbering mode. With both number and
@@ -150,7 +149,7 @@ call plug#begin('~/.vim/plugins')
 " general plugins
 Plug 'easymotion/vim-easymotion'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf'
 Plug 'tpope/vim-commentary'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-unimpaired'
@@ -233,6 +232,12 @@ nnoremap <leader>/ :Ack!<space>
 " region filetypes
 
 let g:tex_flavor = "latex" " always use latex for .tex files
+
+augroup filetype_go
+  autocmd!
+
+  autocmd FileType go setlocal foldmethod=syntax foldnestmax=1
+augroup END
 
 augroup filetype_javascript
   autocmd!
