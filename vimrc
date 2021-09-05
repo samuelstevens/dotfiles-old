@@ -194,6 +194,7 @@ nnoremap K :LspHover<CR>
 nnoremap [g :LspPreviousDiagnostic<CR>
 nnoremap ]g :LspNextDiagnostic<CR>
 nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
+nnoremap <leader>rn :LspRename<CR>
 
 " endregion language servers
 
