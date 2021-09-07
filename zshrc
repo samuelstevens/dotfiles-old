@@ -38,7 +38,11 @@ bindkey -v
 
 # third-party tools
 
+# fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# zoxide
+eval "$(zoxide init zsh)"
 
 # prompts
 
