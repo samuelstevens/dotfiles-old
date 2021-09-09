@@ -153,6 +153,7 @@ Plug 'junegunn/fzf'
 Plug 'tpope/vim-commentary'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-sensible'
 
 " syntax
 Plug 'vim-python/python-syntax'

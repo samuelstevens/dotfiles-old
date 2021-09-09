@@ -15,11 +15,8 @@ set -o vi
 # endregion
 
 # region third-party tools
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
 fi
 
 if command -v rg 1>/dev/null 2>&1; then
@@ -62,17 +59,29 @@ venv() {
     return
   fi
 
-  echo "No venv/ in $(pwd)"
+  echo "No venv/ in $(pwd)."
   
   if [[ -f .python-version ]]; then
     echo "Making a new one with $(python3 --version)"
     python3 -m venv venv
-    source venv/bin/activate  
+    source venv/bin/activate
     pip install --upgrade pip
     return
+  elif command -v conda > /dev/null; then
+    conda_packages=$(conda env list | awk '/^[^#]/ {print $1}')
+    dir=$(basename $(pwd))
+    echo "conda is installed; checking for a conda environment matching $dir."
+    echo $conda_packages | grep -w -q $dir
+    if [[ $? -eq 0 ]]; then
+      echo "Found conda environment '$dir'; activating now."
+      conda activate $dir
+    else
+      echo "Couldn't find a conda environment with name $dir"
+    fi
+  else
+    echo "No .python-version file; will not make a virtualenv without knowing which version of python to use."
   fi
 
-  echo "No .python-version file; will not make a virtualenv without knowing which version of python to use."
 }
 
 marco() {
@@ -111,3 +120,4 @@ alias clear='echo "Use CTRL-L"'
 if [ -f "$HOME/.hostrc" ]; then
   source "$HOME/.hostrc"
 fi
+
