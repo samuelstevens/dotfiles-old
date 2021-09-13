@@ -1,4 +1,13 @@
+# This file is common between bash and zsh.
+# For bash-specific stuff, use bash_profile
+# For zsh-specific stuff, use zshrc
+
 # region path
+if command -v pyenv 1>/dev/null 2>&1; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init --path)"
+fi
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH" # go binaries
 export PATH="$HOME/bin:$PATH" # personal bash scripts
@@ -15,9 +24,6 @@ set -o vi
 # endregion
 
 # region third-party tools
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
 
 if command -v rg 1>/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='rg --files'
@@ -63,7 +69,7 @@ venv() {
   
   if [[ -f .python-version ]]; then
     echo "Making a new one with $(python3 --version)"
-    python3 -m venv venv
+    python -m venv venv
     source venv/bin/activate
     pip install --upgrade pip
     return

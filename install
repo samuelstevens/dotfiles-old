@@ -20,3 +20,6 @@ ln -s ~/dotfiles/bash ~/.bash
 rm -f ~/.fzf
 ln -s ~/dotfiles/fzf ~/.fzf
 ~/.fzf/install --no-update-rc --completion --key-bindings
+
+rm -f ~/.pyenv
+ln -s ~/dotfiles/pyenv ~/.pyenv
