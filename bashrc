@@ -104,8 +104,6 @@ who-owns() {
 # endregion
 
 # region aliases
-alias dc=cd
-
 alias rmds="find . -name '*.DS_Store' -type f -delete"
 
 alias mv="mv -i"
