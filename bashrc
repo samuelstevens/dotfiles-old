@@ -11,7 +11,9 @@ fi
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH" # go binaries
 export PATH="$HOME/bin:$PATH" # personal bash scripts
-source "$HOME/.cargo/env" # rust binaries
+if [ -f "$HOME/.cargo/env" ]; then
+  source "$HOME/.cargo/env" # rust binaries
+fi
 export COBOT_HOME=~/Documents/school/subjects/research/AlexaPrizeCobotToolkit
 export PATH=$COBOT_HOME/bin:$PATH
 export PATH=~/.npm-global/bin:$PATH
