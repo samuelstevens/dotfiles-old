@@ -268,6 +268,7 @@ augroup filetype_c
   " 4 spaces for tabs
   autocmd FileType c setlocal tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType cuda setlocal tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 
 augroup filetype_elm
