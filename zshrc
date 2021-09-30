@@ -46,6 +46,15 @@ if command -v zoxide 1>/dev/null 2>&1; then
   eval "$(zoxide init --cmd j zsh)"
 fi
 
+# If cd takes forever, then consider setting this command once, rather than upon every invocation.
+cd() {
+    if [[ $(whence -w __zoxide_z) == "__zoxide_z: function" ]]; then
+        __zoxide_z "$@"
+    else
+        builtin cd "$@"
+    fi
+}
+
 # prompts
 
 autoload -Uz vcs_info

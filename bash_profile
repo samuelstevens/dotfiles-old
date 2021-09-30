@@ -36,3 +36,12 @@ export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
 if command -v zoxide 1>/dev/null 2>&1; then
   eval "$(zoxide init --cmd j bash)"
 fi
+
+# If cd takes forever, then consider setting this command once, rather than upon every invocation.
+cd() {
+    if [[ $(type -t __zoxide_z) == "function" ]]; then
+        __zoxide_z "$@"
+    else
+        builtin cd "$@"
+    fi
+}
