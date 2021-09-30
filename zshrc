@@ -42,7 +42,9 @@ bindkey -v
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # zoxide
-eval "$(zoxide init --cmd j zsh)"
+if command -v zoxide 1>/dev/null 2>&1; then
+  eval "$(zoxide init --cmd j zsh)"
+fi
 
 # prompts
 

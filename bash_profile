@@ -33,4 +33,6 @@ export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-eval "$(zoxide init --cmd j bash)"
+if command -v zoxide 1>/dev/null 2>&1; then
+  eval "$(zoxide init --cmd j bash)"
+fi
