@@ -107,6 +107,15 @@ who-owns() {
   ps -o user= -p "$1"
 }
 
+# If cd takes forever, then consider setting this command once, rather than upon every invocation.
+cd() {
+    if [[ $(whence -w __zoxide_z) == "__zoxide_z: function" ]]; then
+        __zoxide_z "$@"
+    else
+        builtin cd "$@"
+    fi
+}
+
 # endregion
 
 # region aliases
