@@ -65,7 +65,7 @@ setopt PROMPT_SUBST
 RPROMPT=\$vcs_info_msg_0_
 zstyle ':vcs_info:git:*' formats '%F{240}(%b)%f'
 zstyle ':vcs_info:*' enable git
-PROMPT='%B%F{240}%1~%f%b %(!.#.$) '
+PROMPT='%m:%B%F{240}%1~%f%b %(!.#.$) '
 
 # common between bash and zsh
 
