@@ -4,8 +4,11 @@ set -e
 # install gitsubmodules again
 git submodule update --init --recursive
 
-# finds all files in the current directory that are no executable (not ./setup) and symlinks them.
-find ~/dotfiles/ -maxdepth 1 -type f \! -perm -u=x -name '[!.]*' -print0 | xargs -0 -I{} basename {} | xargs -I{} ln -sf ~/dotfiles/{} ~/.{}
+# finds all files in the current directory that are not executable (not ./install) and symlinks them.
+find ~/dotfiles -maxdepth 1 -type f \! -perm -u=x -name '[!.]*' -print0 | xargs -0 -I{} basename {} | xargs -I{} ln -sf ~/dotfiles/{} ~/.{}
+
+# finds all files in the current directory that are not executable (not ./install) and symlinks them.
+find ~/dotfiles/config -maxdepth 1 -type f \! -perm -u=x -name '[!.]*' -print0 | xargs -0 -I{} basename {} | xargs -I{} ln -sf ~/dotfiles/config/{} ~/.config/{}
 
 # symlinks vim directory
 rm -f ~/.vim # remove any existing symlinks. If this is a directory, the script will fail.

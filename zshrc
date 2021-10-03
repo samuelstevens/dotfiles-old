@@ -56,16 +56,14 @@ cd() {
 }
 
 # prompts
+if ! command -v starship 1>/dev/null 2>&1; then
+  if ping -c 1 starship.rs 1>/dev/null 2>&1; then
+    echo "Installing starhip prompt..."
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+  fi
+fi
 
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt PROMPT_SUBST
-
-RPROMPT=\$vcs_info_msg_0_
-zstyle ':vcs_info:git:*' formats '%F{240}(%b)%f'
-zstyle ':vcs_info:*' enable git
-PROMPT='%m:%B%F{240}%1~%f%b %(!.#.$) '
+eval "$(starship init zsh)"
 
 # common between bash and zsh
 
