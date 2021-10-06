@@ -1,5 +1,5 @@
 add_newline = false
-format = "$python$hostname$directory $fill $git_state$git_branch\n$character"
+format = "$python$hostname$directory $fill $git_status$git_state$git_branch\n$character"
 
 [character]
 success_symbol = "[\\$](bold fg:green)"
@@ -20,6 +20,13 @@ symbol = ' '
 [git_branch]
 format = "[$branch]($style)"
 symbol = ''
+style = "bold bright-purple"
+
+[git_state]
+style = "bold bright-purple"
+
+[git_status]
+style = "bold bright-purple"
 
 [hostname]
 format = "[$hostname]($style) "
