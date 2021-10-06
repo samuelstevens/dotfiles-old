@@ -24,6 +24,12 @@ HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 SAVEHIST=5000
 HISTSIZE=2000
 
+# common between bash and zsh
+
+if [[ -f ~/.bashrc ]]; then
+  source ~/.bashrc
+fi
+
 # Autocomplete
 fpath+=~/.zfunc
 
@@ -58,8 +64,3 @@ cd() {
 # prompts
 eval "$(starship init zsh)"
 
-# common between bash and zsh
-
-if [[ -f ~/.bashrc ]]; then
-  source ~/.bashrc
-fi
