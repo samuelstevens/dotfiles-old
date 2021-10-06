@@ -3,11 +3,8 @@
 # For zsh-specific stuff, use zshrc
 
 # region path
-if command -v pyenv 1>/dev/null 2>&1; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init --path)"
-fi
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH" # go binaries
 export PATH="$HOME/bin:$PATH" # personal bash scripts
@@ -35,6 +32,10 @@ fi
 
 if command -v rg 1>/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='rg --files'
+fi
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
 fi
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
