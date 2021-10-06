@@ -26,6 +26,12 @@ set -o vi
 # endregion
 
 # region third-party tools
+if ! command -v starship 1>/dev/null 2>&1; then
+  if ping -c 1 starship.rs 1>/dev/null 2>&1; then
+    echo "Installing starhip prompt..."
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+  fi
+fi
 
 if command -v rg 1>/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='rg --files'

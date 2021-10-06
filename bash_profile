@@ -12,8 +12,8 @@ bind -m vi-insert 'Control-l: clear-screen'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-export GITAWAREPROMPT=~/.bash/git-aware-prompt
-source "${GITAWAREPROMPT}/main.sh"
+
+eval "$(starship init bash)"
 
 # endregion
 
