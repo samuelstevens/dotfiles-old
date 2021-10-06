@@ -26,8 +26,7 @@ alias ssh-healthyagers="ssh stevens.994@healthyagers.asc.ohio-state.edu"
 # endregion
 
 # region prompt
-export PS1="\W \[\$txtcyn\]\$git_branch\[\$txtred\]\$git_dirty\[\$txtrst\]\$ "
-export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
+eval "$(starship init bash)"
 
 # endregion
 

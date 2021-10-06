@@ -56,13 +56,6 @@ cd() {
 }
 
 # prompts
-if ! command -v starship 1>/dev/null 2>&1; then
-  if ping -c 1 starship.rs 1>/dev/null 2>&1; then
-    echo "Installing starhip prompt..."
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-  fi
-fi
-
 eval "$(starship init zsh)"
 
 # common between bash and zsh

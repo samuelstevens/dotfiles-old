@@ -33,6 +33,13 @@ fi
 
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
+if ! command -v starship 1>/dev/null 2>&1; then
+  if ping -c 1 starship.rs 1>/dev/null 2>&1; then
+    echo "Installing starhip prompt..."
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+  fi
+fi
+
 # endregion
 
 # region functions
@@ -63,7 +70,7 @@ clean() {
 
 venv() {
   if [[ -d venv ]]; then
-    source venv/bin/activate 
+    source venv/bin/activate
     return
   fi
 
