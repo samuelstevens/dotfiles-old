@@ -5,10 +5,19 @@ set -e
 git submodule update --init --recursive
 
 # finds all files in the current directory that are not executable (not ./install) and symlinks them.
-find ~/dotfiles -maxdepth 1 -type f \! -perm -u=x -name '[!.]*' -print0 | xargs -0 -I{} basename {} | xargs -I{} ln -sf ~/dotfiles/{} ~/.{}
+find ~/dotfiles -maxdepth 1 -type f \! -perm -u=x -name '[!.]*' -print0 | \
+    xargs -0 -I{} basename {} | \
+    xargs -I{} ln -sf ~/dotfiles/{} ~/.{}
 
-# finds all files in the current directory that are not executable (not ./install) and symlinks them.
-find ~/dotfiles/config -maxdepth 1 -type f \! -perm -u=x -name '[!.]*' -print0 | xargs -0 -I{} basename {} | xargs -I{} ln -sf ~/dotfiles/config/{} ~/.config/{}
+# finds all files in the config directory that are not executable (not ./install) and symlinks them.
+for file in $(find ~/dotfiles/config -type f \! -perm -u=x -name '[!.]*'); do
+    src_file=$(realpath $file)
+    relative_path=$(echo $file | sed 's/.*dotfiles\/config\///')
+    dst_file=~/.config/$relative_path
+    mkdir -p $(dirname $dst_file)
+    echo "Installing $src_file to $dst_file"
+    ln -sf $src_file $dst_file
+done
 
 # symlinks vim directory
 rm -f ~/.vim # remove any existing symlinks. If this is a directory, the script will fail.

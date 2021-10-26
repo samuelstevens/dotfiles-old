@@ -49,7 +49,7 @@ bindkey -v
 
 # zoxide
 if command -v zoxide 1>/dev/null 2>&1; then
-  eval "$(zoxide init --cmd j zsh)"
+  eval "$(zoxide init --cmd cd zsh)"
 fi
 
 # If cd takes forever, then consider setting this command once, rather than upon every invocation.

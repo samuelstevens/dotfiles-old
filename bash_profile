@@ -33,7 +33,7 @@ eval "$(starship init bash)"
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 if command -v zoxide 1>/dev/null 2>&1; then
-  eval "$(zoxide init --cmd j bash)"
+  eval "$(zoxide init --cmd cd bash)"
 fi
 
 # If cd takes forever, then consider setting this command once, rather than upon every invocation.

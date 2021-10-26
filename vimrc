@@ -1,5 +1,10 @@
-" themes
+" themes and colors
 colorscheme solarized
+
+" Setup term color support
+if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
+  set t_Co=256
+endif
 
 " Always show the status line at the bottom, even if you only have one window open.
 set laststatus=2
@@ -12,7 +17,10 @@ set laststatus=2
 set hidden
 
 " Unbind some useless/annoying default key bindings.
-nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
+" 'Q' in normal mode enters Ex mode. You almost never want this.
+nmap Q <Nop>
+" dont need modelines and the potential security hazard
+set modelines=0
 
 " Try to prevent bad habits like using the arrow keys for movement. This is
 " not the only possible bad habit. For example, holding down the h/j/k/l keys
@@ -56,13 +64,6 @@ set softtabstop=2	" number of spaces to insert for a TAB when editing
 set expandtab		" causes TAB to be inserted as spaces
 set shiftwidth=2 " when indenting with '<', use 2 spaces.
 
-" Vim is based on Vi. Setting `nocompatible` switches from the default
-" Vi-compatibility mode and enables useful Vim functionality. This
-" configuration option turns out not to be necessary for the file named
-" '~/.vimrc', because Vim automatically enters nocompatible mode if that file
-" is present. But we're including it here just in case this config file is
-" loaded some other way (e.g. saved as `foo`, and then Vim started with
-" `vim -u foo`).
 set nocompatible
 
 " The backspace key has slightly unintuitive behavior by default. For example,
@@ -79,6 +80,12 @@ set wildmode=list:longest
 " Use CTRL-J and CTRL-K to navigate the autocompletel menu
 inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
+
+" Keep two lines above/below the cursor when possible
+set scrolloff=2
+
+" Auto read when a file is changed on disk
+set autoread
 
 " endregion
 
@@ -313,10 +320,18 @@ augroup filetype_racket
   autocmd BufReadPost *.rkt,*.rktl set filetype=scheme
 
   " lispy stuff
-  autocmd filetype racket set lisp
-  autocmd filetype racket set autoindent
-  autocmd filetype racket unmap gd
+  autocmd FileType racket set lisp
+  autocmd FileType racket set autoindent
+  autocmd FileType racket unmap gd
 augroup END
+
+augroup filetype_sql
+  autocmd!
+
+  " commenting
+  autocmd FileType sql setlocal commentstring=--\ %s
+augroup END
+
 " endregion filetypes
 
 " region statusline :)
