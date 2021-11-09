@@ -127,6 +127,8 @@ nnoremap <C-S> %
 vnoremap <C-S> %
 
 " window splits
+nnoremap <C-W>\| <C-W>v
+nnoremap <C-W>\- <C-W>s
 set splitbelow
 set splitright
 

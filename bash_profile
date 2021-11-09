@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for file in $(find -L $HOME/.shared); do
+for file in $(find -L $HOME/.shared -type f); do
   source $file
 done
 
