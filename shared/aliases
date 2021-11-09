@@ -1,0 +1,14 @@
+alias rmds="find . -name '*.DS_Store' -type f -delete"
+
+alias mv="mv -i"
+
+alias dotenv='export "$(grep -v "#.*" .env | xargs)"'
+
+alias clear='echo "Use CTRL-L"'
+
+alias gs='git status'
+alias ga='git add'
+alias gp='git push'
+alias gb='git branch'
+alias gc='git commit'
+alias gd='git diff'

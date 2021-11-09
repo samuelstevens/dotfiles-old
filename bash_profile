@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-[ -f $HOME/.env ] && source $HOME/.env
-
-[ -f $HOME/.bashrc ] && source $HOME/.bashrc
+for file in $(find -L $HOME/.shared); do
+  source $file
+done
 
 # clear screen with set -o vi
 bind -m vi-command 'Control-l: clear-screen'
@@ -12,29 +12,15 @@ bind -m vi-insert 'Control-l: clear-screen'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-
 eval "$(starship init bash)"
-
-# endregion
-
-# region very old aliases just in case
-
-# tracms box
-alias ssh-tracms="ssh stevens.994@tracms.asc.ohio-state.edu"
-alias ssh-healthyagers="ssh stevens.994@healthyagers.asc.ohio-state.edu"
-
-# endregion
-
-# region prompt
-eval "$(starship init bash)"
-
-# endregion
-
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 if command -v zoxide 1>/dev/null 2>&1; then
   eval "$(zoxide init --cmd cd bash)"
 fi
+
+# endregion
+
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 # If cd takes forever, then consider setting this command once, rather than upon every invocation.
 cd() {

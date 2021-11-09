@@ -19,7 +19,5 @@ fi
 # npm global
 export PATH=~/.npm-global/bin:$PATH
 
-
 # ripgrep config
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
-

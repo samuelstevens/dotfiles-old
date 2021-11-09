@@ -1,3 +1,5 @@
+# This file is for interactive shells
+
 # shell options
 setopt NO_CASE_GLOB
 setopt SHARE_HISTORY
@@ -21,10 +23,7 @@ unsetopt correct_all
 DISABLE_CORRECTION="true"
 
 # common between bash and zsh
-
-if [[ -f ~/.bashrc ]]; then
-  source ~/.bashrc
-fi
+[[ -f ~/.bashrc ]] && source ~/.bashrc
 
 # Autocomplete
 autoload -U compinit; compinit
@@ -61,3 +60,12 @@ cd() {
 # prompts
 eval "$(starship init zsh)"
 
+
+# adds folder-specifc history for the `jog` command 
+function zshaddhistory() {
+	echo "${1%%$'\n'}|${PWD} &&&" >> ~/.jog_history
+}
+
+function jog() {
+  grep -a --color=never "${PWD} &&&" ~/.jog_history | grep -v --color=never "jog|${PWD} &&&" | tail | awk -F "|" '{ print 10-NR " " $1 }'
+}
