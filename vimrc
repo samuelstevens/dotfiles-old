@@ -87,6 +87,9 @@ set scrolloff=2
 " Auto read when a file is changed on disk
 set autoread
 
+" I don't care for swapfiles at all
+set noswapfile
+
 " endregion
 
 " region shortcuts
