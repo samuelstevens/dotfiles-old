@@ -164,7 +164,6 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'psf/black'
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 call plug#end()
 

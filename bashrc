@@ -2,22 +2,7 @@
 # For bash-specific stuff, use bash_profile
 # For zsh-specific stuff, use zshrc
 
-# region path
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
-export PATH="$HOME/go/bin:$PATH" # go binaries
-export PATH="$HOME/bin:$PATH" # personal bash scripts
-if [ -f "$HOME/.cargo/env" ]; then
-  source "$HOME/.cargo/env" # rust binaries
-fi
-export COBOT_HOME=~/Documents/school/subjects/research/AlexaPrizeCobotToolkit
-export PATH=$COBOT_HOME/bin:$PATH
-export PATH=~/.npm-global/bin:$PATH
-# endregion
-
 # region vim-bindings
-export EDITOR=vim
 set editing-mode vi
 set -o vi
 # endregion
@@ -37,8 +22,6 @@ fi
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
 fi
-
-export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 if ! command -v starship 1>/dev/null 2>&1; then
   if ping -c 1 starship.rs 1>/dev/null 2>&1; then

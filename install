@@ -15,22 +15,30 @@ for file in $(find ~/dotfiles/config -type f \! -perm -u=x -name '[!.]*'); do
     relative_path=$(echo $file | sed 's/.*dotfiles\/config\///')
     dst_file=~/.config/$relative_path
     mkdir -p $(dirname $dst_file)
-    echo "Installing $src_file to $dst_file"
+    echo "Symlinking $src_file to $dst_file"
     ln -sf $src_file $dst_file
 done
 
-# symlinks vim directory
-rm -f ~/.vim # remove any existing symlinks. If this is a directory, the script will fail.
-ln -s ~/dotfiles/vim ~/.vim
+symlink_dir() {
+    echo "Symlinking $2 to $1"
+    rm -f $2
+    ln -s $1 $2
+}
 
-# symlinks .bash (for git-aware prompt)
-rm -f ~/.bash # remove any existing symlinks. If this is a directory, the script will fail.
-ln -s ~/dotfiles/bash ~/.bash
+symlink_dir_to_hidden() {
+    mkdir -p $2
+    for file in $(ls $1); do
+        src_file="$1/$file"
+        dst_file="$2/.$file"
+        echo "Symlinking $src_file to $dst_file"
+        ln -sf $src_file $dst_file
+    done
+}
 
-# fzf
-rm -f ~/.fzf
-ln -s ~/dotfiles/fzf ~/.fzf
+symlink_dir ~/dotfiles/vim ~/.vim
+symlink_dir ~/dotfiles/bash ~/.bash
+symlink_dir ~/dotfiles/fzf ~/.fzf
+symlink_dir ~/dotfiles/pyenv ~/.pyenv
+symlink_dir_to_hidden ~/dotfiles/zsh ~/.zsh
+
 ~/.fzf/install --no-update-rc --completion --key-bindings
-
-rm -f ~/.pyenv
-ln -s ~/dotfiles/pyenv ~/.pyenv

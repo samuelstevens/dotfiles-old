@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-if [[ -f ~/.bashrc ]]; then
-  source ~/.bashrc
-fi
+[ -f $HOME/.env ] && source $HOME/.env
+
+[ -f $HOME/.bashrc ] && source $HOME/.bashrc
 
 # clear screen with set -o vi
 bind -m vi-command 'Control-l: clear-screen'

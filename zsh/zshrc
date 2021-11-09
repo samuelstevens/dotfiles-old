@@ -20,10 +20,6 @@ unsetopt correct
 unsetopt correct_all
 DISABLE_CORRECTION="true"
 
-HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
-SAVEHIST=5000
-HISTSIZE=2000
-
 # common between bash and zsh
 
 if [[ -f ~/.bashrc ]]; then
@@ -31,6 +27,7 @@ if [[ -f ~/.bashrc ]]; then
 fi
 
 # Autocomplete
+autoload -U compinit; compinit
 fpath+=~/.zfunc
 
 # case insensitive path-completion
