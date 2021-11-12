@@ -2,12 +2,18 @@
 # For bash-specific stuff, use bash_profile
 # For zsh-specific stuff, use zshrc
 
+for file in $(find -L $HOME/.shared -type f); do
+  source $file
+done
+
 # region vim-bindings
 set editing-mode vi
 set -o vi
 # endregion
 
 # region third-party tools
+
+# download starship
 if ! command -v starship 1>/dev/null 2>&1; then
   if ping -c 1 starship.rs 1>/dev/null 2>&1; then
     echo "Installing starhip prompt..."
@@ -15,19 +21,14 @@ if ! command -v starship 1>/dev/null 2>&1; then
   fi
 fi
 
+# set fzf default command
 if command -v rg 1>/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='rg --files'
 fi
 
+# initialize pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
-fi
-
-if ! command -v starship 1>/dev/null 2>&1; then
-  if ping -c 1 starship.rs 1>/dev/null 2>&1; then
-    echo "Installing starhip prompt..."
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-  fi
 fi
 
 # endregion

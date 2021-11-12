@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-for file in $(find -L $HOME/.shared -type f); do
-  source $file
-done
-
 # clear screen with set -o vi
 bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
+
+# shared stuff
+[[ -f ~/.shared/rc ]] && source ~/.shared/rc
 
 # region third-party tools
 

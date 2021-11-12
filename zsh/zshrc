@@ -23,7 +23,8 @@ unsetopt correct_all
 DISABLE_CORRECTION="true"
 
 # common between bash and zsh
-[[ -f ~/.bashrc ]] && source ~/.bashrc
+[[ -f ~/.shared/rc ]] && source ~/.shared/rc
+
 
 # Autocomplete
 autoload -U compinit; compinit
