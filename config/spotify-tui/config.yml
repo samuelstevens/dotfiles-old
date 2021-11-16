@@ -12,3 +12,6 @@ theme:
   playbar_text: "101, 123, 131" # artist name in player pane
   selected: "38, 139, 210"  # a) selected pane border, b) hovered item in list, & c) track title in player
   text: "101, 123, 131" # text in panes
+
+behavior:
+  enforce_wide_search_bar: true

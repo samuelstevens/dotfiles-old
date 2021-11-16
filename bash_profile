@@ -5,7 +5,7 @@ bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
 
 # shared stuff
-[[ -f ~/.shared/rc ]] && source ~/.shared/rc
+[[ -f ~/.sharedrc ]] && source ~/.sharedrc
 
 # region third-party tools
 

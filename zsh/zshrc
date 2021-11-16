@@ -23,7 +23,7 @@ unsetopt correct_all
 DISABLE_CORRECTION="true"
 
 # common between bash and zsh
-[[ -f ~/.shared/rc ]] && source ~/.shared/rc
+[[ -f ~/.sharedrc ]] && source ~/.sharedrc
 
 
 # Autocomplete

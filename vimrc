@@ -128,7 +128,7 @@ vnoremap <C-S> %
 
 " window splits
 nnoremap <C-W>\| <C-W>v
-nnoremap <C-W>\- <C-W>s
+nnoremap <C-W>- <C-W>s
 set splitbelow
 set splitright
 
@@ -193,6 +193,9 @@ let g:lsp_signature_help_enabled=0
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 1000
+
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
 
 nnoremap gd :LspDefinition<CR>
 nnoremap gr :LspReferences<CR>
