@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+TODO_DIR="$HOME/Documents/todo"
+TODAY=$(date +"%Y-%m-%d")
+YESTERDAY=$(date -v -1d +"%Y-%m-%d")
+TOMORROW=$(date -v +1d +"%Y-%m-%d")
+
+mkdir -p "$TODO_DIR"
+cd "$TODO_DIR"
+
+function print_usage() {
+    echo "todo 0.4.0"
+    echo "Samuel Stevens <samuel.robert.stevens@gmail.com>"
+    echo "A simple todo manager."
+    echo
+    echo "USAGE:"
+    printf "\ttodo [command]\n"
+    echo
+    printf "\tCalling todo without any command will open today's todo file. If it is the first time you have started todo today, it will use yesterday's todo file as a template.\n"
+    echo
+    printf "COMMANDS:\n"
+    printf "\tfind PATTERN\tFind PATTERN in $TODO_DIR.\n"
+    printf "\tls\t\tShow all note files in $TODO_DIR\n"
+    printf "\topen\t\tOpen $EDITOR in $TODO_DIR.\n"
+    echo
+    printf "\tyesterday\tOpen the todo file for yesterday.\n"
+    printf "\ttoday\t\tOpen the todo file for today.\n"
+    printf "\ttomorrow\tOpen the todo file for tomorrow.\n"
+}
+
+function todo_today() {
+    if [ -f "$TODO_DIR/$YESTERDAY.md" ]; then
+        if [ ! -f "$TODO_DIR/$TODAY.md" ]; then
+            cp "$TODO_DIR/$YESTERDAY.md" "$TODO_DIR/$TODAY.md"
+        fi
+    fi
+    "$EDITOR" "$TODO_DIR/$TODAY.md"
+}
+
+function todo_yesterday() {
+    "$EDITOR" "$TODO_DIR/$YESTERDAY.md"
+}
+
+function todo_tomorrow() {
+    "$EDITOR" "$TODO_DIR/$TOMORROW.md"
+}
+
+function todo_ls() {
+    ls "$TODO_DIR"
+}
+
+function todo_open() {
+    "$EDITOR"
+}
+
+function todo_find() {
+    grep --recursive --ignore-case --color=always --regexp="$1" "$TODO_DIR" | sort 
+}
+
+function todo_main() {
+    if [[ "$1" == "" ]]; then
+        todo_today
+    else 
+        case "$1" in
+            ls) todo_ls ;;
+            open) todo_open ;;
+            today) todo_today ;;
+            yesterday) todo_yesterday ;;
+            tomorrow) todo_tomorrow ;;
+            find) todo_find $2 ;;
+            *) print_usage; exit 1;;
+        esac
+    fi
+}
+
+todo_main "$@"

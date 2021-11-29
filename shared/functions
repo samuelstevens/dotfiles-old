@@ -18,45 +18,9 @@ wifi(){
   fi
 }
 
-clean() {
-  xcrun simctl delete unavailable
-}
-
-venv() {
-  if [[ -d venv ]]; then
-    source venv/bin/activate
-    return
-  fi
-
-  echo "No venv/ in $(pwd)."
-  
-  if [[ -f .python-version ]]; then
-    echo "Making a new one with $(python3 --version)"
-    python -m venv venv
-    source venv/bin/activate
-    pip install --upgrade pip
-    return
-  elif command -v conda > /dev/null; then
-    conda_packages=$(conda env list | awk '/^[^#]/ {print $1}')
-    dir=$(basename $(pwd))
-    echo "conda is installed; checking for a conda environment matching $dir."
-    echo $conda_packages | grep -w -q $dir
-    if [[ $? -eq 0 ]]; then
-      echo "Found conda environment '$dir'; activating now."
-      conda activate $dir
-    else
-      echo "Couldn't find a conda environment with name $dir"
-    fi
-  else
-    echo "No .python-version file; will not make a virtualenv without knowing which version of python to use."
-  fi
-
-}
-
 marco() {
   pwd > /tmp/marco 
 }
-
 polo() {
   cd $(cat /tmp/marco)
 }
@@ -69,3 +33,11 @@ mygrep() {
 who-owns() {
   ps -o user= -p "$1"
 }
+
+function require {
+    if ! command -v "$1" 1>/dev/null 2>&1; then
+        echo "'$1' required, but not installed."
+        exit 1
+    fi
+}
+

@@ -12,3 +12,6 @@ alias gp='git push'
 alias gb='git branch'
 alias gc='git commit'
 alias gd='git diff'
+alias gl='git log'
+# git graph
+alias gg='git log --branches --remotes --tags --graph --oneline --decorate --notes HEAD'

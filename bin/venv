@@ -1,0 +1,27 @@
+if [[ -d venv ]]; then
+  source venv/bin/activate
+  exit 0
+fi
+
+echo "No venv/ in $(pwd)."
+
+if [[ -f .python-version ]]; then
+  echo "Making a new one with $(python3 --version)"
+  python -m venv venv
+  source venv/bin/activate
+  pip install --upgrade pip
+  exit 0
+elif command -v conda > /dev/null; then
+  conda_packages=$(conda env list | awk '/^[^#]/ {print $1}')
+  dir=$(basename $(pwd))
+  echo "conda is installed; checking for a conda environment matching $dir."
+  echo $conda_packages | grep -w -q $dir
+  if [[ $? -eq 0 ]]; then
+    echo "Found conda environment '$dir'; activating now."
+    conda activate $dir
+  else
+    echo "Couldn't find a conda environment with name $dir"
+  fi
+else
+  echo "No .python-version file; will not make a virtualenv without knowing which version of python to use."
+fi

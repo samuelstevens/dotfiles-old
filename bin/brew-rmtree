@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# Usage
+# `brew leaves` to show all brew packages that are not depended on by other packages.
+# Pick a package that you don't want anymore and run ./brew-rmtree.sh <package-name>.
+# It will recursively check if that package's dependencies are also "leaf" dependencies
+# that can be safely removed.
+
+function check {
+  read -p "$1 [y/n] " -r
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+function rmtree {
+  if brew ls --versions "$1" > /dev/null; then
+    if check "Remove $1?"; then 
+      brew uninstall "$1"
+    else
+      echo "skipping dependencies for $1."
+      return 1
+    fi
+  else
+    echo "$1 is already uninstalled."
+  fi  
+
+  deps=$(join <(brew leaves) <(brew deps "$1"))
+
+  if [[ $deps ]]; then 
+    for i in $deps; do
+      rmtree "$i"
+    done
+  else 
+    echo "$1 has no \"leaf\" dependencies."
+  fi
+}
+
+if [[ $1 ]]; then
+  rmtree "$1"
+else
+  echo "No package specified."
+fi

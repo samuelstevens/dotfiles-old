@@ -1,0 +1,252 @@
+#!/usr/bin/env python3
+
+import argparse
+import ast
+import os
+from pathlib import Path
+from typing import Dict, NewType, Set, TypeVar, Union
+
+Module = NewType("Module", str)
+
+Imports = Set[Module]
+
+Project = Dict[Module, Imports]
+
+T = TypeVar("T")
+
+Result = Union[T, Exception]
+
+OPEN = "_OPEN_BRACKET_"
+CLOSE = "_CLOSE_BRACKET_"
+
+
+STD_LIB = set(
+    Module(i)
+    for i in [
+        "os",
+        "uuid",
+        "typing_extensions",
+        "bisect",
+        "sys",
+        "dataclasses",
+        "pathlib",
+        "typing",
+        "math",
+        "logging",
+        "argparse",
+        "shutil",
+        "random",
+        "pickle",
+        "heapq",
+        "csv",
+        "lxml",
+        "itertools",
+        "tarfile",
+        "sqlite3",
+        "json",
+        "pexpect",
+        "gzip",
+        "enum",
+        "time",
+        "functools",
+        "re",
+        "subprocess",
+        "cProfile",
+        "ctypes",
+        "string",
+        "datetime",
+    ]
+)
+
+
+def show_error(err: Exception) -> None:
+    print("Error:")
+    print(f"\t{err}\n")
+
+
+def find_imported(source: str) -> Result[Imports]:
+    imports = set()
+    try:
+        tree = ast.parse(source)
+    except SyntaxError as err:
+        return err
+
+    for statement in tree.body:
+        if isinstance(statement, ast.Import):
+            for name in statement.names:
+                imports.add(Module(name.name))
+
+        if isinstance(statement, ast.ImportFrom):
+            if statement.module:
+                imports.add(Module(statement.module))
+            else:
+                for name in statement.names:
+                    imports.add(Module(name.name))
+
+    return imports
+
+
+def get_imports_from_file(path: Path) -> Result[Imports]:
+    if not os.path.isfile(path):
+        return FileNotFoundError(f"{path} must be a file")
+
+    with open(path, "r") as file:
+        try:
+            content = file.read()
+        except Exception as err:
+            return ValueError(f"couldn't read file '{path}': {err}")
+
+        imports = find_imported(content)
+        if isinstance(imports, Exception):
+            return ValueError(f"couldn't parse file '{path}': {imports}")
+
+        return imports
+
+    # # get imports from this one file
+    # finder = ModuleFinder()
+    # finder.run_script(str(path))
+
+    # for name, mod in finder.modules.items():
+    #     if name.startswith("_"):
+    #         continue
+
+    #     print(name, mod)
+
+
+def get_imports(path: Path) -> Result[Project]:
+    if path.is_dir():
+        # need to get imports from each module in this folder.
+        project = {}
+        for file in path.iterdir():
+            if file.name.startswith("__") or file.name.startswith("."):
+                continue
+
+            filepath = path / file
+
+            subproject = get_imports(filepath)
+            if isinstance(subproject, Exception):
+                return subproject
+
+            project.update(subproject)
+
+        return project
+
+    elif path.is_file():
+        if path.suffix != ".py":
+            return {}
+
+        imports = get_imports_from_file(path)
+
+        if isinstance(imports, Exception):
+            return imports
+
+        module_name = Module(path.stem)
+        return {module_name: imports}
+    else:
+        return FileNotFoundError(f"{path} must exist on disk")
+
+
+def get_third_party_from_reqs_txt(requirements_txt_filepath: Path) -> Set[Module]:
+    modules = set()
+
+    with open(requirements_txt_filepath, "r") as file:
+        for line in file:
+            module = Module(line.split("==")[0])
+            modules.add(module)
+
+    return modules
+
+
+def find_reqs_txt(project_path: Path) -> Result[Path]:
+    for file in project_path.iterdir():
+        if file.name == "requirements.txt":
+            return file
+    for file in project_path.parent.iterdir():
+        if file.name == "requirements.txt":
+            return file
+
+    return ValueError(f"no requirements.txt found for '{project_path}")
+
+
+def skip_module(mod: Module, skip_modules: Imports) -> bool:
+    root = mod.split(".")[0]
+
+    return root in skip_modules
+
+
+def import_to_dag(mod: Module, imports: Imports, skip_modules: Imports) -> str:
+    imports_esc = {
+        '"' + mod + '"' for mod in imports if not skip_module(mod, skip_modules)
+    }
+    imports_str = ", ".join(imports_esc)
+
+    return f"{mod} -> {OPEN} {imports_str} {CLOSE};".replace(OPEN, "{").replace(
+        CLOSE, "}"
+    )
+
+
+def make_dag(project: Project, filename: Path, skip_modules: Imports) -> None:
+
+    content = "\n\n\t".join(
+        [import_to_dag(mod, imports, skip_modules) for mod, imports in project.items()]
+    )
+
+    template = f"""strict digraph references {OPEN}
+\t{content}
+{CLOSE}"""
+
+    graph = template.replace(OPEN, "{").replace(CLOSE, "}")
+
+    with open(filename, "w") as file:
+        file.write(graph)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "project",
+        help="folder or file containing the python project to analyze",
+        type=str,
+    )
+
+    parser.add_argument("--output", help="filename to write DAG to.", type=str)
+
+    args = parser.parse_args()
+
+    project_path = Path(os.getcwd()) / Path(args.project)
+
+    output_filepath = Path(args.output or f"{project_path.name}-imports.dot")
+
+    project = get_imports(project_path)
+
+    if isinstance(project, Exception):
+        show_error(project)
+        return
+
+    if project_path.is_dir():
+        package = project_path.name
+
+        imports = {
+            mod: {Module(imp.replace(package + ".", "")) for imp in imports}
+            for mod, imports in project.items()
+        }
+
+    reqs_txt = find_reqs_txt(project_path)
+
+    if isinstance(reqs_txt, Exception):
+        print(reqs_txt)
+        third_party = set()
+    else:
+        third_party = get_third_party_from_reqs_txt(reqs_txt)
+
+    skip_modules = third_party | STD_LIB
+
+    make_dag(imports, output_filepath, skip_modules)
+
+    print("Now execute:")
+    print(f"\tdot -T jpeg -o imports.jpeg {output_filepath} && open imports.jpeg")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,2 @@
+echo "Forwarding $1:$2 to localhost:$2"
+ssh $1 -N -L $2:localhost:$2

@@ -40,6 +40,7 @@ symlink_dir ~/dotfiles/bash ~/.bash
 symlink_dir ~/dotfiles/fzf ~/.fzf
 symlink_dir ~/dotfiles/pyenv ~/.pyenv
 symlink_dir ~/dotfiles/shared ~/.shared
+symlink_dir ~/dotfiles/bin ~/bin
 
 symlink_dir_to_hidden ~/dotfiles/zsh ~/.zsh
 
