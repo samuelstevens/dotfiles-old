@@ -22,6 +22,7 @@ done
 symlink_dir() {
     echo "Symlinking $2 to $1"
     rm -f $2
+    mkdir -p $(dirname $2)
     ln -s $1 $2
 }
 
@@ -40,7 +41,7 @@ symlink_dir ~/dotfiles/bash ~/.bash
 symlink_dir ~/dotfiles/fzf ~/.fzf
 symlink_dir ~/dotfiles/pyenv ~/.pyenv
 symlink_dir ~/dotfiles/shared ~/.shared
-symlink_dir ~/dotfiles/bin ~/bin
+symlink_dir ~/dotfiles/bin/scripts ~/bin/scripts
 
 symlink_dir_to_hidden ~/dotfiles/zsh ~/.zsh
 

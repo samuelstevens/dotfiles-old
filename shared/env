@@ -10,6 +10,7 @@ export PATH="$HOME/go/bin:$PATH"
 
 # personal bash scripts
 export PATH="$HOME/bin:$PATH" 
+export PATH="$HOME/bin/scripts:$PATH" 
 
 # rust binaries
 if [ -f "$HOME/.cargo/env" ]; then
