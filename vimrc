@@ -163,6 +163,7 @@ Plug 'tpope/vim-sensible'
 " syntax
 Plug 'vim-python/python-syntax'
 Plug 'cespare/vim-toml'
+Plug 'gabrielelana/vim-markdown'
 
 " IDE stuff
 Plug 'prabirshrestha/vim-lsp'

@@ -1,128 +1,128 @@
 #!/usr/bin/env bash
 
-# set -x
+set -e
 
 WIKI_DIR="$HOME/Documents/wiki"
 LINK_DIR="$WIKI_DIR/.links"
 
 function print_usage {
-    echo "wiki 0.2.3"
+    echo "wiki 0.3.0"
     echo "Samuel Stevens <samuel.robert.stevens@gmail.com>"
     echo "A simple wiki."
     echo
     echo "USAGE:"
-    printf "\twiki [COMMAND]\n"
+    echo "  wiki [COMMAND]"
     echo
-    printf "The wiki is a flat directory with no hierarchy. Files contain tags starting with #. To find files, use 'find'.\n"
+    echo "The wiki is a flat directory with no hierarchy. Files contain tags starting with #. To find files, use 'find'."
     echo
-    printf "COMMANDS\n"
-    printf "\tfind WORD [WORD ...]\tFind all files matching each of the words.\n"
-    printf "\tnew WORD [WORD ...]\tMake a new file with the phrase.\n"
-    printf "\ttags\t\t\tShow all # tags in your wiki with a count.\n"
+    echo "COMMANDS"
+    echo "  find WORD [WORD ...]  Find all files matching each of the words."
+    echo "                        If there is only one matching file, opens it directly."
+    echo "  new WORD [WORD ...]   Make a new file with the phrase."
+    echo "  tags                  Show all # tags in your wiki with a count."
 }
 
-function require {
-    if ! command -v "$1" 1>/dev/null 2>&1; then
-        echo "'$1' required, but not installed."
-        exit 1
-    fi
-}
 
 function wiki_find {
-  shift  # gets rid of "find" in $1
+    shift  # gets rid of "find" in $1
 
-  # set up the $file variable
-  if [ "$1" = "" ]; then
-    file=$(fd --type file --maxdepth 1 | fzf)
-  else
-    files=$(fd . | sed 's|\./||')
+    # set up the $file variable
+    if [ "$1" = "" ]; then
+        file=$(fd --type file --maxdepth 1 | fzf)
+    else
+        files=$(fd . | sed 's|\./||')
 
-    echo $files
+        for pattern in "$@"; do
+            files=$(rg "$pattern" $files --files-with-matches | sort | uniq)
+        done
+        
+        if [ "$files" = "" ]; then
+            echo "No files found matching '$@'."
+            exit 1
+        elif [ $(echo $files | wc -w | xargs) -eq 1 ]; then
+            file=$files
+        else
+            file=$(echo $files | tr ' ' '\n' | fzf)
+        fi
 
-    for pattern in "$@"; do
-      files=$(rg "$pattern" $files --files-with-matches | sort | uniq)
-    done
-
-    if [ "$files" = "" ]; then
-      echo "No files found matching '$@'."
-      exit 1
     fi
 
-    file=$(echo $files | tr ' ' '\n' | fzf)
-  fi
-
-  if [ "$file" = "" ]; then
-    echo "No file selected!"
-  else
-    wiki_start $file
-  fi
+    if [ "$file" = "" ]; then
+        echo "No file selected!"
+    else
+        wiki_start $file
+    fi
 }
 
 function wiki_new {
-  shift # gets rid of "new"
-  
-  # File name is the args joined with a dash.
-  # First line is the args preceded by '# '
+    shift # gets rid of "new"
 
-  filename="$(echo "$@" | sed 's/ /-/g' | tr A-Z a-z).md"
-  title="# ${@^}" # Every word now starts with a capital letter.
-  echo $title > $filename
-  wiki_start $filename
+    # File name is the args joined with a dash.
+    # First line is the args preceded by '# '
+
+    filename="$(echo "$@" | sed 's/ /-/g' | tr A-Z a-z).md"
+    title="# ${@^}" # Every word now starts with a capital letter.
+    echo $title > $filename
+    wiki_start $filename
 }
 
 function wiki_tags {
-  shift
+    shift
 
-  tag_regex='#(\w|/|-|_)+'
+    tag_regex='#(\w|/|-|_)+'
 
-  rg --max-depth 1 --no-line-number --no-filename --only-matching $tag_regex | sort | uniq -c
+    rg --max-depth 1 --no-line-number --no-filename --only-matching $tag_regex | sort | uniq -c
 }
 
 function wiki_start {
-  if [ "$1" = "" ]; then
-    $EDITOR
-  elif [ "${1#*.}" = "md" ]; then
-    $EDITOR $1
-  else
-    echo "${1#*.}"
-    open $1
-  fi
-
-  # Check for all links in the wiki. Download them.
-  url_regex='(https?://(.+\.[^()]+))'
-  links_and_names=$(rg --only-matching --no-filename --no-line-number $url_regex --replace '$1*$2' --max-depth=1 .)  # using a * because I don't know how to write good bash.
-  for link_and_name in $links_and_names; do
-    link=$(echo $link_and_name | cut -d '*' -f 1)
-    name=$(echo $link_and_name | cut -d '*' -f 2 | tr '/' '-')
-    name=${name%-}
-    target="$LINK_DIR/$name.html"
-
-    if [ ! -f $target ]; then
-      echo "download $link to $target"
-      monolith $link --isolate --no-audio --no-frames --no-video --unwrap-noscript --output "$target" --silent
+    if [ "$1" = "" ]; then
+        $EDITOR
+    elif [ "${1#*.}" = "md" ]; then
+        $EDITOR $1
+    else
+        echo "${1#*.}"
+        open $1
     fi
-  done
+    
+    #             https    one or more subdomains tld      optional / plus some junk
+    url_regex="\b(https?://((:?[A-Za-z0-9\-_]+\.)+[A-Za-z]+(:?/.*))?)\b"
+    # Check for all links in the wiki. Download them.
+    links_and_names=$(rg --only-matching --no-filename --no-line-number $url_regex --replace '$1*$2' --max-depth=1 .)  # using a * because I don't know how to write good bash.
+    for link_and_name in $links_and_names; do
+        link=$(echo $link_and_name | cut -d '*' -f 1)
+        name=$(echo $link_and_name | cut -d '*' -f 2 | tr '/' '-')
+        name=${name%-}  # removes trailing dash
+        target="$LINK_DIR/$name.html"
+
+        if [ "$name" = "" ]; then
+            continue
+        fi
+
+        if [ ! -f $target ]; then
+            echo "download $link to $target"
+            monolith $link --isolate --no-audio --no-frames --no-video --unwrap-noscript --output "$target" --silent
+        fi
+    done
 }
 
 function wiki_main {
-  if [[ "$1" == "" ]]; then
-    wiki_start
-  else 
-    case "$1" in
-      start) wiki_start ;;
-      find) wiki_find $@ ;;
-      new) wiki_new $@ ;;
-      tags) wiki_tags $@ ;;
-      *) print_usage; exit 1;;
-    esac
-  fi
+    if [ "$1" = "" ]; then
+        wiki_start
+    else 
+        case "$1" in
+            start) wiki_start ;;
+            find) wiki_find $@ ;;
+            new) wiki_new $@ ;;
+            tags) wiki_tags $@ ;;
+            *) print_usage; exit 1;;
+        esac
+    fi
 }
 
 mkdir -p "$WIKI_DIR"
 mkdir -p "$LINK_DIR"
 cd $WIKI_DIR
 touch root.md
-
 
 require "rg"
 require "fd"
