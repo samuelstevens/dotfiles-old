@@ -5,8 +5,6 @@ TODAY=$(date +"%Y-%m-%d")
 YESTERDAY=$(date -v -1d +"%Y-%m-%d")
 TOMORROW=$(date -v +1d +"%Y-%m-%d")
 
-mkdir -p "$TODO_DIR"
-cd "$TODO_DIR"
 
 function print_usage() {
     echo "todo 0.4.0"
@@ -14,18 +12,18 @@ function print_usage() {
     echo "A simple todo manager."
     echo
     echo "USAGE:"
-    printf "\ttodo [command]\n"
+    echo "  todo [command]"
     echo
-    printf "\tCalling todo without any command will open today's todo file. If it is the first time you have started todo today, it will use yesterday's todo file as a template.\n"
+    echo "  Calling todo without any command will open today's todo file. If it is the first time you have started todo today, it will use yesterday's todo file as a template."
     echo
-    printf "COMMANDS:\n"
-    printf "\tfind PATTERN\tFind PATTERN in $TODO_DIR.\n"
-    printf "\tls\t\tShow all note files in $TODO_DIR\n"
-    printf "\topen\t\tOpen $EDITOR in $TODO_DIR.\n"
+    echo "COMMANDS:"
+    echo "  find PATTERN  Find PATTERN in $TODO_DIR."
+    echo "  ls            Show all note files in $TODO_DIR"
+    echo "  open          Open $EDITOR in $TODO_DIR."
     echo
-    printf "\tyesterday\tOpen the todo file for yesterday.\n"
-    printf "\ttoday\t\tOpen the todo file for today.\n"
-    printf "\ttomorrow\tOpen the todo file for tomorrow.\n"
+    echo "  yesterday     Open the todo file for yesterday."
+    echo "  today         Open the todo file for today."
+    echo "  tomorrow      Open the todo file for tomorrow."
 }
 
 function todo_today() {
@@ -54,7 +52,9 @@ function todo_open() {
 }
 
 function todo_find() {
-    grep --recursive --ignore-case --color=always --regexp="$1" "$TODO_DIR" | sort 
+    shift
+    echo "rg $@ $TODO_DIR"
+    rg --no-line-number --no-filename $@ "$TODO_DIR" | sort | uniq
 }
 
 function todo_main() {
@@ -67,10 +67,15 @@ function todo_main() {
             today) todo_today ;;
             yesterday) todo_yesterday ;;
             tomorrow) todo_tomorrow ;;
-            find) todo_find $2 ;;
+            find) todo_find $@ ;;
             *) print_usage; exit 1;;
         esac
     fi
 }
+
+mkdir -p "$TODO_DIR"
+cd "$TODO_DIR"
+
+require "rg"
 
 todo_main "$@"
