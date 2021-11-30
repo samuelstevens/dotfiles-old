@@ -1,5 +1,5 @@
 " themes and colors
-colorscheme solarized
+colorscheme brutal
 
 " Setup term color support
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
@@ -262,9 +262,6 @@ augroup filetype_python
 
   " use BLACK for formatting
   autocmd FileType python nnoremap <buffer> <localleader>f :Black<CR>
-
-  " show a column at 88 chars for formatting
-  autocmd FileType python set colorcolumn=88
 augroup END
 
 augroup filetype_c
