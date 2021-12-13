@@ -15,3 +15,5 @@ alias gd='git diff'
 alias gl='git log'
 # git graph
 alias gg='git log --branches --remotes --tags --graph --oneline --decorate --notes HEAD'
+
+alias lg='lazygit'

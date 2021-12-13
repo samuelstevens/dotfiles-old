@@ -162,6 +162,7 @@ Plug 'tpope/vim-sensible'
 
 " syntax
 Plug 'vim-python/python-syntax'
+Plug 'samuelstevens/vim-python-folding'
 Plug 'cespare/vim-toml'
 Plug 'gabrielelana/vim-markdown'
 
@@ -191,7 +192,7 @@ endif
 " region language servers (lsp)
 
 let g:lsp_signs_enabled = 1
-let g:lsp_signature_help_enabled=0
+let g:lsp_signature_help_enabled=1
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_float_delay = 1000
@@ -205,6 +206,7 @@ nnoremap ]g :LspNextDiagnostic<CR>
 nnoremap g] :LspNextDiagnostic<CR>
 nnoremap <leader>f :LspDocumentFormat<CR>:write<CR>
 nnoremap <leader>rn :LspRename<CR>
+nnoremap <c-t> :LspWorkspaceSymbol<CR>
 
 " endregion language servers
 
@@ -256,6 +258,8 @@ augroup END
 
 augroup filetype_python
   autocmd!
+
+  autocmd FileType python setlocal foldnestmax=1
 
   " makes python files use 4 spaces
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
@@ -333,6 +337,15 @@ augroup filetype_sql
 
   " commenting
   autocmd FileType sql setlocal commentstring=--\ %s
+augroup END
+
+augroup filetype_markdown
+  autocmd!
+
+  " commenting
+  autocmd FileType markdown setlocal nospell
+  
+  let g:markdown_enable_input_abbreviations = 0
 augroup END
 
 " endregion filetypes
