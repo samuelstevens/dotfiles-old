@@ -6,7 +6,7 @@ WIKI_DIR="$HOME/Documents/wiki"
 LINK_DIR="$WIKI_DIR/.links"
 
 function print_usage {
-    echo "wiki 0.3.0"
+    echo "wiki 0.3.1"
     echo "Samuel Stevens <samuel.robert.stevens@gmail.com>"
     echo "A simple wiki."
     echo
@@ -20,6 +20,7 @@ function print_usage {
     echo "                        If there is only one matching file, opens it directly."
     echo "  new WORD [WORD ...]   Make a new file with the phrase."
     echo "  tags                  Show all # tags in your wiki with a count."
+    echo "  recent                Show a list of the most recent articles edited."
 }
 
 
@@ -71,7 +72,13 @@ function wiki_tags {
 
     tag_regex='#(\w|/|-|_)+'
 
-    rg --max-depth 1 --no-line-number --no-filename --only-matching $tag_regex | sort | uniq -c
+    rg --max-depth 1 --no-line-number --no-filename --only-matching $tag_regex | sort | uniq -c | less
+}
+
+function wiki_recent {
+    shift
+    file=$(ls -trh | tail | tac | fzf)
+    wiki_start $file
 }
 
 function wiki_start {
@@ -84,23 +91,28 @@ function wiki_start {
         open $1
     fi
     
-    #             https    one or more subdomains tld      optional / plus some junk
-    url_regex="\b(https?://((:?[A-Za-z0-9\-_]+\.)+[A-Za-z]+(:?/.*))?)\b"
+    #             https    one or more subdomains tld      optional / and some junk
+    url_regex="\b(https?://((:?[A-Za-z0-9\-_]+\.)+[A-Za-z]+(:?/[A-Za-z0-9%\-_/.]*))?)\b"
+    url_regex="\b(https?://((:?[A-Za-z0-9\-_]+\.)+[A-Za-z]+(:?/[^)]*))?)\b"
     # Check for all links in the wiki. Download them.
     links_and_names=$(rg --only-matching --no-filename --no-line-number $url_regex --replace '$1*$2' --max-depth=1 .)  # using a * because I don't know how to write good bash.
     for link_and_name in $links_and_names; do
         link=$(echo $link_and_name | cut -d '*' -f 1)
         name=$(echo $link_and_name | cut -d '*' -f 2 | tr '/' '-')
         name=${name%-}  # removes trailing dash
-        target="$LINK_DIR/$name.html"
 
         if [ "$name" = "" ]; then
             continue
         fi
 
+        target="$LINK_DIR/$name.html"
+
         if [ ! -f $target ]; then
             echo "download $link to $target"
-            monolith $link --isolate --no-audio --no-frames --no-video --unwrap-noscript --output "$target" --silent
+            if [ ! $(monolith $link --isolate --no-audio --no-frames --no-video --unwrap-noscript --output "$target" --silent) ]; then
+                echo $?
+                echo "Failed to download $link to $target"
+            fi
         fi
     done
 }
@@ -114,6 +126,7 @@ function wiki_main {
             find) wiki_find $@ ;;
             new) wiki_new $@ ;;
             tags) wiki_tags $@ ;;
+            recent) wiki_recent $@ ;; 
             *) print_usage; exit 1;;
         esac
     fi
@@ -122,7 +135,6 @@ function wiki_main {
 mkdir -p "$WIKI_DIR"
 mkdir -p "$LINK_DIR"
 cd $WIKI_DIR
-touch root.md
 
 require "rg"
 require "fd"

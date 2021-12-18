@@ -12,6 +12,7 @@ hi Normal cterm=NONE ctermfg=241 ctermbg=White
 
 " syntax highlighting
 hi Comment    cterm=bold ctermfg=240
+hi Title      cterm=bold ctermfg=240
 
 hi Constant   cterm=NONE ctermfg=241
 hi Identifier cterm=NONE ctermfg=241
@@ -22,10 +23,11 @@ hi PreProc    cterm=NONE ctermfg=241
 hi Type	      cterm=NONE ctermfg=241
 hi Special    cterm=NONE ctermfg=241
 
-hi Underlined cterm=NONE ctermfg=241
+hi Underlined cterm=underline ctermfg=241
+
 hi Ignore     cterm=NONE ctermfg=241
 hi Error      cterm=NONE ctermfg=160 ctermbg=White
-hi TODO       cterm=NONE ctermfg=166 ctermbg=White
+hi TODO       cterm=bold ctermfg=166 ctermbg=White
 
 hi LineNr      cterm=NONE ctermfg=245
 
@@ -33,5 +35,11 @@ hi LineNr      cterm=NONE ctermfg=245
 hi Folded       ctermfg=240 ctermbg=White
 hi FoldColumn   ctermfg=240 ctermbg=White
 
+" editor stuff
 hi Pmenu             ctermfg=240 ctermbg=254
-hi Search cterm=bold ctermfg=33 ctermbg=White
+hi Search    cterm=bold ctermfg=33 ctermbg=White
+hi IncSearch cterm=bold ctermfg=White ctermbg=33
+
+" markdown
+highlight markdownLinkUrl cterm=underline ctermfg=245
+highlight markdownLinkText cterm=NONE
