@@ -182,7 +182,7 @@ if executable('rg')
   nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'rg --files'}))<CR>
   nnoremap <leader><C-P> :call fzf#run(fzf#wrap({'source': 'rg --files --no-ignore --hidden'}))<CR>
 else
-  nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'git ls-files'}))<CR>
+  nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'git ls-files --recurse-submodules'}))<CR>
   nnoremap <leader><C-P> :FZF<CR>
 endif
 
