@@ -70,3 +70,7 @@ function venv {
     echo "No .python-version file; will not make a virtualenv without knowing which version of python to use."
   fi
 }
+
+function tre {
+  git ls-tree -r --name-only HEAD $1 | tree --fromfile
+}

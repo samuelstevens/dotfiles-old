@@ -1,6 +1,7 @@
 \documentclass[letterpaper]{article}
 
 \usepackage{microtype}
+\usepackage{biblatex}
 
 \begin{document}
 

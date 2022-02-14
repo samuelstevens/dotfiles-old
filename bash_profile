@@ -29,3 +29,4 @@ cd() {
         builtin cd "$@"
     fi
 }
+export PATH=~/.npm-global/bin:$PATH
