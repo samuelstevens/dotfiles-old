@@ -71,6 +71,48 @@ function venv {
   fi
 }
 
-function tre {
+function gtree {
   git ls-tree -r --name-only HEAD $1 | tree --fromfile
+}
+
+function nextpaper {
+  paperdir="/Users/samstevens/Library/Mobile Documents/com~apple~CloudDocs/Reading/Papers"
+  notesdir="$paperdir/Notes"
+  pendingdir="$paperdir/Pending"
+  finisheddir="$paperdir/Finished"
+
+  mkdir -p "$notesdir"
+
+  if [ "$1" = '' ]; then
+    # Randomly choose a file from the most recently downloaded 20 files.
+    paperfilename="$(ls -t $pendingdir | head -n 20 | sort -R | head -n 1)"
+  else
+    echo "Choosing a paper with tag $1"
+    paperfilename="$(tag -f "$1" -0 "$pendingdir" | xargs -0 ls -t | head -n 20 | sort -R | head -n 1)"
+    paperfilename="$(basename "$paperfilename")"
+    echo "$paperfilename"
+  fi
+  title="${paperfilename%.*}"
+
+  paperpath="$pendingdir/$paperfilename"
+  echo $paperpath
+  open $paperpath
+
+  notesfilename="$title.md"
+
+  notespath="$notesdir/$notesfilename"
+
+  # Put the title in the file.
+  echo "# $title" >> $notespath
+  echo "" >> $notespath
+
+  # Add the tags.
+  tag --list --no-name "$paperpath" | python3 -c "tags = input().split(','); print(' '.join(f'#{tag}' for tag in tags))" >> $notespath
+
+  # Edit for easy access.
+  $EDITOR $notespath
+
+  echo "Now run: (copied to clipboard)"
+  echo "mv \"$paperpath\" \"$finisheddir\"" | pbcopy
+  pbpaste
 }
