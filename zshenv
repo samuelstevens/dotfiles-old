@@ -1,5 +1,5 @@
 export ZDOTDIR="$HOME/.zsh"
-export EDITOR="vim"
+export EDITOR="nvim"
 
 export HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 export SAVEHIST=10000

@@ -17,3 +17,4 @@ alias gl='git log'
 alias gg='git log --branches --remotes --tags --graph --oneline --decorate --notes HEAD'
 
 alias lg='lazygit'
+alias vim='nvim'
