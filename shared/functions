@@ -116,3 +116,7 @@ function nextpaper {
   echo "mv \"$paperpath\" \"$finisheddir\"" | pbcopy
   pbpaste
 }
+
+function hex() {
+  printf "%02X%02X%02X\n" ${*//','/' '}
+}

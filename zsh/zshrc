@@ -1,5 +1,7 @@
 # This file is for interactive shells
 
+export EDITOR="nvim"
+
 # shell options
 setopt NO_CASE_GLOB
 setopt SHARE_HISTORY
