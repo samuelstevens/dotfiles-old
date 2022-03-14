@@ -1,3 +1,47 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
+
+let g:python3_host_prog = $HOME . '/.local/venv/nvim/bin/python'
+
+" region plugins
+
+call plug#begin('~/.vim/plugins')
+
+" general plugins
+Plug 'easymotion/vim-easymotion'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'junegunn/fzf'
+Plug 'tpope/vim-commentary'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-sensible'
+
+" syntax
+Plug 'vim-python/python-syntax'
+Plug 'samuelstevens/vim-python-folding'
+Plug 'cespare/vim-toml'
+Plug 'gabrielelana/vim-markdown'
+
+" IDE stuff
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'averms/black-nvim', {'do': ':UpdateRemotePlugins'}
+
+call plug#end()
+
+" Prettier
+let g:prettier#config#trailing_comma = 'all'
+
+" fzf
+if executable('rg')
+  nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'rg --files'}))<CR>
+  nnoremap <leader><C-P> :call fzf#run(fzf#wrap({'source': 'rg --files --no-ignore --hidden'}))<CR>
+else
+  nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'git ls-files --recurse-submodules'}))<CR>
+  nnoremap <leader><C-P> :FZF<CR>
+endif
+
+" endregion plugins

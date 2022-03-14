@@ -147,48 +147,6 @@ nnoremap <leader>ls :buffers<CR>:buffer<Space>
 
 " endregion navigation
 
-" region plugins
-
-call plug#begin('~/.vim/plugins')
-
-" general plugins
-Plug 'easymotion/vim-easymotion'
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'junegunn/fzf'
-Plug 'tpope/vim-commentary'
-Plug 'mileszs/ack.vim'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-sensible'
-
-" syntax
-Plug 'vim-python/python-syntax'
-Plug 'samuelstevens/vim-python-folding'
-Plug 'cespare/vim-toml'
-Plug 'gabrielelana/vim-markdown'
-
-" IDE stuff
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'psf/black'
-
-call plug#end()
-
-" Prettier
-let g:prettier#config#trailing_comma = 'all'
-
-" fzf
-if executable('rg')
-  nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'rg --files'}))<CR>
-  nnoremap <leader><C-P> :call fzf#run(fzf#wrap({'source': 'rg --files --no-ignore --hidden'}))<CR>
-else
-  nnoremap <C-p> :call fzf#run(fzf#wrap({'source': 'git ls-files --recurse-submodules'}))<CR>
-  nnoremap <leader><C-P> :FZF<CR>
-endif
-
-" endregion plugins
-
 " region language servers (lsp)
 
 let g:lsp_signs_enabled = 1
@@ -265,7 +223,7 @@ augroup filetype_python
   autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
   " use BLACK for formatting
-  autocmd FileType python nnoremap <buffer> <localleader>f :Black<CR>
+  autocmd FileType python nnoremap <buffer> <localleader>f <cmd>call Black()<CR>
 augroup END
 
 augroup filetype_c
