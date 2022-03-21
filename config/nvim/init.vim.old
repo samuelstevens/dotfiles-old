@@ -24,10 +24,11 @@ Plug 'cespare/vim-toml'
 Plug 'gabrielelana/vim-markdown'
 
 " IDE stuff
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'neovim/nvim-lspconfig'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'averms/black-nvim', {'do': ':UpdateRemotePlugins'}
 
 call plug#end()
