@@ -109,14 +109,21 @@ require('telescope').setup {
     mappings = {
       i = {
         ["<esc>"] = "close",
-      }
-    }
+        ["<C-J>"] = "move_selection_next",
+        ["<C-K>"] = "move_selection_previous",
+      },
+    },
   },
 }
 require'telescope'.load_extension('fzf')
 
 keymap('n', '<C-P>', "<cmd> lua require('telescope.builtin').find_files()<CR>", {noremap=true})
 keymap('n', '<Leader>/', "<cmd> lua require('telescope.builtin').live_grep()<CR>", {noremap=true})
+
+M.create_augroup({
+  { 'User TelescopePreviewerLoaded', 'unmap!', '<C-K>' },
+  { 'User TelescopePreviewerLoaded', 'unmap!', '<C-J>' },
+}, 'telescope')
 
 -- LSP
 
