@@ -121,8 +121,8 @@ keymap('n', '<C-P>', "<cmd> lua require('telescope.builtin').find_files()<CR>", 
 keymap('n', '<Leader>/', "<cmd> lua require('telescope.builtin').live_grep()<CR>", {noremap=true})
 
 M.create_augroup({
-  { 'User TelescopePreviewerLoaded', 'unmap!', '<C-K>' },
-  { 'User TelescopePreviewerLoaded', 'unmap!', '<C-J>' },
+  { 'User TelescopePreviewerLoaded', 'iunmap', '<C-K>' },
+  { 'User TelescopePreviewerLoaded', 'iunmap', '<C-J>' },
 }, 'telescope')
 
 -- LSP
