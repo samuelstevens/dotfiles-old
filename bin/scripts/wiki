@@ -3,7 +3,6 @@
 set -e
 
 WIKI_DIR="$HOME/Documents/wiki"
-LINK_DIR="$WIKI_DIR/.links"
 
 function print_usage {
     echo "wiki 0.3.1"
@@ -90,31 +89,6 @@ function wiki_start {
         echo "${1#*.}"
         open $1
     fi
-    
-    #             https    one or more subdomains tld      optional / and some junk
-    url_regex="\b(https?://((:?[A-Za-z0-9\-_]+\.)+[A-Za-z]+(:?/[A-Za-z0-9%\-_/.]*))?)\b"
-    url_regex="\b(https?://((:?[A-Za-z0-9\-_]+\.)+[A-Za-z]+(:?/[^)]*))?)\b"
-    # Check for all links in the wiki. Download them.
-    links_and_names=$(rg --only-matching --no-filename --no-line-number $url_regex --replace '$1*$2' --max-depth=1 .)  # using a * because I don't know how to write good bash.
-    for link_and_name in $links_and_names; do
-        link=$(echo $link_and_name | cut -d '*' -f 1)
-        name=$(echo $link_and_name | cut -d '*' -f 2 | tr '/' '-')
-        name=${name%-}  # removes trailing dash
-
-        if [ "$name" = "" ]; then
-            continue
-        fi
-
-        target="$LINK_DIR/$name.html"
-
-        if [ ! -f $target ]; then
-            echo "download $link to $target"
-            if [ ! $(monolith $link --isolate --no-audio --no-frames --no-video --unwrap-noscript --output "$target" --silent) ]; then
-                echo $?
-                echo "Failed to download $link to $target"
-            fi
-        fi
-    done
 }
 
 function wiki_main {
@@ -133,12 +107,10 @@ function wiki_main {
 }
 
 mkdir -p "$WIKI_DIR"
-mkdir -p "$LINK_DIR"
 cd $WIKI_DIR
 
 require "rg"
 require "fd"
 require "fzf"
-require "monolith"
 
 wiki_main "$@"
