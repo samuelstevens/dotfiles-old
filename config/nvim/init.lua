@@ -1,16 +1,7 @@
 -- region Lua helpers
 local initlua = vim.env.HOME .. '/.config/nvim/init.lua' 
 local venv = vim.env.HOME .. '/.local/venv/nvim'
-local M = {}
-
-function M.create_augroup(autocmds, name)
-  vim.cmd('augroup filetype_' .. name)
-  vim.cmd('autocmd!')
-  for _, autocmd in ipairs(autocmds) do
-    vim.cmd('autocmd ' .. table.concat(autocmd, ' '))
-  end
-  vim.cmd('augroup END')
-end
+local functions = require'functions'
 -- endregion
 
 vim.cmd("syntax enable")
@@ -118,9 +109,10 @@ require('telescope').setup {
 require'telescope'.load_extension('fzf')
 
 keymap('n', '<C-P>', "<cmd> lua require('telescope.builtin').find_files()<CR>", {noremap=true})
+keymap('n', '<Leader>ls', "<cmd> lua require('telescope.builtin').buffers()<CR>", {noremap=true})
 keymap('n', '<Leader>/', "<cmd> lua require('telescope.builtin').live_grep()<CR>", {noremap=true})
 
-M.create_augroup({
+functions.create_augroup({
   { 'User TelescopePreviewerLoaded', 'silent!', 'iunmap', '<C-K>' },
   { 'User TelescopePreviewerLoaded', 'silent!', 'iunmap', '<C-J>' },
 }, 'telescope')
@@ -144,6 +136,7 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
 require'lspconfig'.pylsp.setup{ 
@@ -154,13 +147,24 @@ require'lspconfig'.pylsp.setup{
   },
 }
 
+require'lspconfig'.gopls.setup{
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+}
+
 -- endregion
 
 -- region Language-specific stuff
 
-M.create_augroup({
+functions.create_augroup({
   { 'Filetype', 'python', 'setlocal', 'tabstop=4', 'shiftwidth=4', 'softtabstop=4' },
   { 'Filetype', 'python', 'nnoremap', '<buffer>', '<leader>f', '<cmd>call Black()<CR>' },
 }, 'python')
+
+functions.create_augroup({
+  { 'BufEnter', '*', ":lua require'functions'.addFileToSuffixesAdd()" }
+}, 'suffixesadd')
 
 -- endregion
