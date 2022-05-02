@@ -13,7 +13,7 @@ echo
 echo "source nvim/bin/activate"
 echo "  This activates the virtualenv."
 echo
-echo "pip install pynvim black"
+echo "pip install pynvim black 'python-lsp-server[all]'"
 echo "  Neovim requires pynvim to be installed. I require black to be installed for averms/black-nvim."
 echo
 echo "  Then run :UpdateRemotePlugins inside nvim. The post-install hook for black-nvim hasn't worked for me in the past."
