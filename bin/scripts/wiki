@@ -34,6 +34,9 @@ function wiki_find {
 
         for pattern in "$@"; do
             files=$(rg "$pattern" $files --files-with-matches | sort | uniq)
+            if [ "$files" = "" ]; then
+              break
+            fi
         done
         
         if [ "$files" = "" ]; then
@@ -69,7 +72,7 @@ function wiki_new {
 function wiki_tags {
     shift
 
-    tag_regex='#(\w|/|-|_)+'
+    tag_regex='\s#(\w|/|-|_)+'
 
     rg --max-depth 1 --no-line-number --no-filename --only-matching $tag_regex | sort | uniq -c | less
 }
