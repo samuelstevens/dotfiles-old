@@ -37,5 +37,11 @@ fi
 
 # endregion
 
+# use color
+export CLICOLOR=1
+
+# disable homebrew analytics
+export HOMEBREW_NO_ANALYTICS=1
+
 # host specific stuff
 [ -f "$HOME/.hostrc" ] && source "$HOME/.hostrc"
