@@ -45,7 +45,7 @@ function wiki_find {
         elif [ $(echo $files | wc -w | xargs) -eq 1 ]; then
             file=$files
         else
-            file=$(echo $files | tr ' ' '\n' | fzf)
+            file=$(echo $files | tr ' ' '\n' | sort --reverse | fzf)
         fi
 
     fi
@@ -72,9 +72,15 @@ function wiki_new {
 function wiki_tags {
     shift
 
-    tag_regex='\s#(\w|/|-|_)+'
+    tag_regex='(?:^|\s+)#(\w|/|-|_)+'
 
-    rg --max-depth 1 --no-line-number --no-filename --only-matching $tag_regex | sort | uniq -c | less
+    rg --max-depth 1 --no-line-number --no-filename --only-matching $tag_regex \
+      | xargs -n 1 \
+      | cut -c 2- \
+      | tr '[:upper:]' '[:lower:]' \
+      | sort \
+      | uniq -c \
+      | less
 }
 
 function wiki_recent {
